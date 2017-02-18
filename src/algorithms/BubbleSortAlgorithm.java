@@ -24,6 +24,7 @@ public class BubbleSortAlgorithm implements Algorithm {
                 currentIndex = 0;
                 hasSwapped = false;
             } else {
+                dataSet.setIsSorted();
                 return false;
             }
         }

@@ -1,8 +1,10 @@
 package models;
 
+import java.awt.*;
 import java.util.*;
 
 public class DataSetModel implements Iterable<Integer> {
+    private boolean isSorted = false;
     private final int highestNumber;
     private final LinkedList<Integer> data;
     private final Set<Integer> latestChanges;
@@ -30,6 +32,10 @@ public class DataSetModel implements Iterable<Integer> {
         return data.iterator();
     }
 
+    public void setIsSorted() {
+        this.isSorted = true;
+    }
+
     public int getHighestNumber() {
         return highestNumber;
     }
@@ -40,8 +46,14 @@ public class DataSetModel implements Iterable<Integer> {
             latestChanges.add(number);
     }
 
-    public boolean isLatestChange(int number) {
-        return latestChanges.contains(number);
+    public Color getColor(int number) {
+        if (isSorted)
+            return new Color(27, 94, 32);
+
+        if (latestChanges.contains(number))
+            return new Color(213, 0, 0);
+
+        return new Color(41, 98, 255);
     }
 
     public LinkedList<Integer> getData() {

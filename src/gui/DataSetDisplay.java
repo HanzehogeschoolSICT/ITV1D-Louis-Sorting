@@ -34,17 +34,17 @@ public class DataSetDisplay extends JPanel {
 
         DrawBarDataModel drawBarData = new DrawBarDataModel(heightPerNumber, widthPerBar);
         for (Integer number : dataSet)
-            drawBar(graphics, number, drawBarData, dataSet.isLatestChange(number));
+            drawBar(graphics, number, drawBarData, dataSet.getColor(number));
     }
 
-    private void drawBar(Graphics graphics, Integer number, DrawBarDataModel drawBarData, boolean isLatestChange) {
+    private void drawBar(Graphics graphics, Integer number, DrawBarDataModel drawBarData, Color color) {
         int barHeight = drawBarData.getHeightPerNumber() * number;
         int x = drawBarData.getCurrentX();
         int y = getHeight() - barHeight;
 
         Rectangle barRectangle = new Rectangle(x, y, drawBarData.getWidthPerBar(), barHeight);
 
-        graphics.setColor(isLatestChange ? Color.BLUE : Color.BLACK);
+        graphics.setColor(color);
         graphics.fillRect(barRectangle.x, barRectangle.y, barRectangle.width, barRectangle.height);
 
         drawNumberInBar(graphics, number, barRectangle);
