@@ -34,7 +34,7 @@ public class DataSetModel implements Iterable<Integer> {
         return highestNumber;
     }
 
-    public Set<Integer> getLatestChanges() {
-        return latestChanges;
+    public boolean isLatestChange(int number) {
+        return latestChanges.contains(number);
     }
 }
