@@ -59,8 +59,4 @@ public class DataSetModel implements Iterable<Integer> {
     public LinkedList<Integer> getData() {
         return data;
     }
-
-    public int getMaxIndex() {
-        return data.size() - 1;
-    }
 }

@@ -15,7 +15,7 @@ public class BubbleSortAlgorithm extends Algorithm {
 
     @Override
     public boolean nextStep() {
-        if (currentIndex + 1 > dataSet.getMaxIndex()) {
+        if (currentIndex + 1 > maxIndex) {
             if (hasSwapped) {
                 currentIndex = 0;
                 hasSwapped = false;
@@ -25,7 +25,6 @@ public class BubbleSortAlgorithm extends Algorithm {
             }
         }
 
-        LinkedList<Integer> data = dataSet.getData();
         dataSet.setLatestChanges(data.get(currentIndex), data.get(currentIndex + 1));
 
         if (data.get(currentIndex) > data.get(currentIndex + 1)) {
