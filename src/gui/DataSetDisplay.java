@@ -3,6 +3,7 @@ package gui;
 import data.Settings;
 import models.DataBundleModel;
 import models.DataSetModel;
+import models.DrawBarDataModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,22 +32,23 @@ public class DataSetDisplay extends JPanel {
         int heightPerNumber = getHeight() / dataSet.getHighestNumber();
         int widthPerBar = getWidth() / dataSet.getHighestNumber();
 
-        int currentX = 0;
+        DrawBarDataModel drawBarData = new DrawBarDataModel(heightPerNumber, widthPerBar);
         for (Integer number : dataSet)
-            currentX = drawBar(graphics, number, currentX, heightPerNumber, widthPerBar);
+            drawBar(graphics, number, drawBarData);
     }
 
-    private int drawBar(Graphics graphics, Integer number, int currentX, int numberHeight, int barWidth) {
-        int barHeight = numberHeight * number;
+    private void drawBar(Graphics graphics, Integer number, DrawBarDataModel drawBarData) {
+        int barHeight = drawBarData.getHeightPerNumber() * number;
+        int x = drawBarData.getCurrentX();
         int y = getHeight() - barHeight;
-        Rectangle barRectangle = new Rectangle(currentX, y, barWidth, barHeight);
+
+        Rectangle barRectangle = new Rectangle(x, y, drawBarData.getWidthPerBar(), barHeight);
 
         graphics.setColor(Color.BLACK);
         graphics.fillRect(barRectangle.x, barRectangle.y, barRectangle.width, barRectangle.height);
 
         drawNumberInBar(graphics, number, barRectangle);
-
-        return currentX + barWidth;
+        drawBarData.increaseCurrentX();
     }
 
     private void drawNumberInBar(Graphics graphics, Integer number, Rectangle barRectangle) {
