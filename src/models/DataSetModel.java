@@ -1,12 +1,11 @@
 package models;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 public class DataSetModel implements Iterable<Integer> {
-    private int highestNumber;
-    private LinkedList<Integer> data;
+    private final int highestNumber;
+    private final LinkedList<Integer> data;
+    private final Set<Integer> latestChanges;
 
     /**
      * Initialize the data set with numbers from 1 to N in a random order.
@@ -15,6 +14,7 @@ public class DataSetModel implements Iterable<Integer> {
     public DataSetModel(int n) {
         highestNumber = n;
         data = new LinkedList<>();
+        latestChanges = new HashSet<>();
 
         Random random = new Random();
         for (int i = 1; i <= n; i++)
@@ -32,5 +32,9 @@ public class DataSetModel implements Iterable<Integer> {
 
     public int getHighestNumber() {
         return highestNumber;
+    }
+
+    public Set<Integer> getLatestChanges() {
+        return latestChanges;
     }
 }

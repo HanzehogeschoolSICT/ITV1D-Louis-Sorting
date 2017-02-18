@@ -8,13 +8,21 @@ import java.awt.*;
 public class MainDisplay extends JFrame {
     public MainDisplay(DataBundleModel dataBundle) {
         setTitle("Sorting");
-
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         Container container = getContentPane();
         setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
+        initializeViews(dataBundle);
+        setSystemLookAndFeel();
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void initializeViews(DataBundleModel dataBundle) {
         DataSetDisplay dataSetDisplay = new DataSetDisplay(dataBundle);
         dataBundle.setDataSetDisplay(dataSetDisplay);
         dataSetDisplay.displayDataSet();
@@ -22,16 +30,14 @@ public class MainDisplay extends JFrame {
 
         ControlsDisplay controlsDisplay = new ControlsDisplay(dataBundle);
         add(controlsDisplay);
+    }
 
+    private void setSystemLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
         } catch (Exception exception) {
             System.out.println("Failed to apply system look and feel.");
         }
-
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 }

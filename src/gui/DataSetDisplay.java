@@ -8,9 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DataSetDisplay extends JPanel {
-    private DataBundleModel dataBundle;
+    private final DataBundleModel dataBundle;
 
-    public DataSetDisplay(DataBundleModel dataBundle) {
+    DataSetDisplay(DataBundleModel dataBundle) {
         this.dataBundle = dataBundle;
     }
 
@@ -19,34 +19,34 @@ public class DataSetDisplay extends JPanel {
         return new Dimension(Settings.DATA_SET_DISPLAY_WIDTH, Settings.DATA_SET_DISPLAY_HEIGHT);
     }
 
-    public void displayDataSet() {
+    void displayDataSet() {
         repaint();
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
         DataSetModel dataSet = dataBundle.getDataSetModel();
 
-        int heightPerBar = getHeight() / dataSet.getHighestNumber();
+        int heightPerNumber = getHeight() / dataSet.getHighestNumber();
         int widthPerBar = getWidth() / dataSet.getHighestNumber();
 
-        int positionX = 0;
+        int currentX = 0;
         for (Integer number : dataSet)
-            positionX = drawBar(g, number, positionX, heightPerBar, widthPerBar);
+            currentX = drawBar(graphics, number, currentX, heightPerNumber, widthPerBar);
     }
 
-    private int drawBar(Graphics graphics, Integer number, int initialX, int barHeight, int barWidth) {
-        barHeight = barHeight * number;
-        int positionY = getHeight() - barHeight;
-        Rectangle barRectangle = new Rectangle(initialX, positionY, barWidth, barHeight);
+    private int drawBar(Graphics graphics, Integer number, int currentX, int numberHeight, int barWidth) {
+        int barHeight = numberHeight * number;
+        int y = getHeight() - barHeight;
+        Rectangle barRectangle = new Rectangle(currentX, y, barWidth, barHeight);
 
         graphics.setColor(Color.BLACK);
         graphics.fillRect(barRectangle.x, barRectangle.y, barRectangle.width, barRectangle.height);
 
         drawNumberInBar(graphics, number, barRectangle);
 
-        return initialX + barWidth;
+        return currentX + barWidth;
     }
 
     private void drawNumberInBar(Graphics graphics, Integer number, Rectangle barRectangle) {

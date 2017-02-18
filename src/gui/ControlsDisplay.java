@@ -16,23 +16,19 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 class ControlsDisplay extends JPanel {
-    private DataBundleModel dataBundle;
-
-    private Algorithm algorithm;
-    private HashMap<String, Callable<Algorithm>> algorithmHashMap = new HashMap<>();
-
-    private Timer autoNextStepTimer;
-    private JButton autoNextStepButton;
-    private JSpinner autoNextStepSpinner;
+    private final DataBundleModel dataBundle;
 
     ControlsDisplay(DataBundleModel dataBundle) {
         this.dataBundle = dataBundle;
-        setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        setLayout(new FlowLayout(FlowLayout.CENTER, Settings.COMPONENT_SPACING, Settings.COMPONENT_SPACING));
 
         initializeAlgorithms();
         initializeNextStep();
         initializeAutoNextStep();
     }
+
+    private Algorithm algorithm;
+    private final HashMap<String, Callable<Algorithm>> algorithmHashMap = new HashMap<>();
 
     private void initializeAlgorithms() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
@@ -40,7 +36,8 @@ class ControlsDisplay extends JPanel {
         algorithmHashMap.put("QuickSort", QuickSortAlgorithm::new);
 
         Set<String> algorithmNames = algorithmHashMap.keySet();
-        JComboBox algorithmComboBox = new JComboBox<>(algorithmNames.toArray(new String[algorithmNames.size()]));
+        String[] algorithmNamesArray = algorithmNames.toArray(new String[algorithmNames.size()]);
+        JComboBox algorithmComboBox = new JComboBox<>(algorithmNamesArray);
         algorithmComboBox.addActionListener(this::algorithmSelected);
 
         // Trigger algorithmSelected to make sure an algorithm exists.
@@ -74,14 +71,17 @@ class ControlsDisplay extends JPanel {
         dataSetDisplay.displayDataSet();
     }
 
+    private Timer autoNextStepTimer;
+    private JButton autoNextStepButton;
+    private JSpinner autoNextStepSpinner;
+
     private void initializeAutoNextStep() {
         autoNextStepButton = new JButton("Start Auto Next Step");
         autoNextStepButton.addActionListener(this::autoNextStepToggle);
         add(autoNextStepButton);
 
-        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(
-                Settings.AUTO_NEXT_STEP_VALUE, Settings.AUTO_NEXT_STEP_MINIMUM,
-                Settings.AUTO_NEXT_STEP_MAXIMUM, Settings.AUTO_NEXT_STEP_STEP_SIZE);
+        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(Settings.AUTO_NEXT_VALUE_MS,
+                Settings.AUTO_NEXT_MINIMUM_MS, Settings.AUTO_NEXT_MAXIMUM_MS, Settings.AUTO_NEXT_STEP_SIZE);
         autoNextStepSpinner = new JSpinner(spinnerNumberModel);
         add(autoNextStepSpinner);
 
