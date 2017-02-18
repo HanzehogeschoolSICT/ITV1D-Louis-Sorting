@@ -2,10 +2,9 @@ package algorithms;
 
 import models.DataSetModel;
 
-public class QuickSortAlgorithm implements Algorithm {
-    @Override
-    public void setDataSet(DataSetModel dataSet) {
-
+public class QuickSortAlgorithm extends Algorithm {
+    public QuickSortAlgorithm(DataSetModel dataSet) {
+        super(dataSet);
     }
 
     @Override

@@ -2,7 +2,12 @@ package algorithms;
 
 import models.DataSetModel;
 
-public interface Algorithm {
-    void setDataSet(DataSetModel dataSet);
-    boolean nextStep();
+public abstract class Algorithm {
+    protected DataSetModel dataSet;
+
+    public Algorithm(DataSetModel dataSet) {
+        this.dataSet = dataSet;
+    }
+
+    public abstract boolean nextStep();
 }

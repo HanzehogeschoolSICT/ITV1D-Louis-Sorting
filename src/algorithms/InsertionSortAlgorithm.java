@@ -2,11 +2,9 @@ package algorithms;
 
 import models.DataSetModel;
 
-public class InsertionSortAlgorithm implements Algorithm {
-
-    @Override
-    public void setDataSet(DataSetModel dataSet) {
-
+public class InsertionSortAlgorithm extends Algorithm {
+    public InsertionSortAlgorithm(DataSetModel dataSet) {
+        super(dataSet);
     }
 
     @Override

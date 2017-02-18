@@ -5,16 +5,12 @@ import models.DataSetModel;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class BubbleSortAlgorithm implements Algorithm {
-    private DataSetModel dataSet;
+public class BubbleSortAlgorithm extends Algorithm {
     private int currentIndex;
     private boolean hasSwapped = false;
 
-    @Override
-    public void setDataSet(DataSetModel dataSet) {
-        this.dataSet = dataSet;
-        currentIndex = 0;
-        hasSwapped = false;
+    public BubbleSortAlgorithm(DataSetModel dataSet) {
+        super(dataSet);
     }
 
     @Override

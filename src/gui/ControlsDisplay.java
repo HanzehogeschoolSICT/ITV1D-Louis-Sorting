@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 class ControlsDisplay extends JPanel {
     private final DataBundleModel dataBundle;
@@ -28,7 +28,7 @@ class ControlsDisplay extends JPanel {
     }
 
     private Algorithm algorithm;
-    private final HashMap<String, Callable<Algorithm>> algorithmHashMap = new HashMap<>();
+    private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
 
     private void initializeAlgorithms() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
@@ -49,10 +49,10 @@ class ControlsDisplay extends JPanel {
     private void algorithmSelected(ActionEvent actionEvent) {
         JComboBox algorithmComboBox = (JComboBox)actionEvent.getSource();
         String algorithmName = (String)algorithmComboBox.getSelectedItem();
+        DataSetModel dataSet = dataBundle.getDataSetModel();
 
         try {
-            algorithm = algorithmHashMap.get(algorithmName).call();
-            algorithm.setDataSet(dataBundle.getDataSetModel());
+            algorithm = algorithmHashMap.get(algorithmName).apply(dataSet);
         } catch (Exception exception) {
             System.out.println("Failed to create algorithm.");
         }
