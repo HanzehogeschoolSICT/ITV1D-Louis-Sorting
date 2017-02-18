@@ -3,5 +3,6 @@ package algorithms;
 import models.DataSetModel;
 
 public interface Algorithm {
-    boolean nextStep(DataSetModel dataSet);
+    void setDataSet(DataSetModel dataSet);
+    boolean nextStep();
 }

@@ -3,8 +3,14 @@ package algorithms;
 import models.DataSetModel;
 
 public class InsertionSortAlgorithm implements Algorithm {
+
     @Override
-    public boolean nextStep(DataSetModel dataSet) {
+    public void setDataSet(DataSetModel dataSet) {
+
+    }
+
+    @Override
+    public boolean nextStep() {
         return false;
     }
 }

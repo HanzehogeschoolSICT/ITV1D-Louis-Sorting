@@ -34,7 +34,21 @@ public class DataSetModel implements Iterable<Integer> {
         return highestNumber;
     }
 
+    public void setLatestChanges(int... numbers) {
+        latestChanges.clear();
+        for (int number : numbers)
+            latestChanges.add(number);
+    }
+
     public boolean isLatestChange(int number) {
         return latestChanges.contains(number);
+    }
+
+    public LinkedList<Integer> getData() {
+        return data;
+    }
+
+    public int getMaxIndex() {
+        return data.size() - 1;
     }
 }

@@ -52,6 +52,7 @@ class ControlsDisplay extends JPanel {
 
         try {
             algorithm = algorithmHashMap.get(algorithmName).call();
+            algorithm.setDataSet(dataBundle.getDataSetModel());
         } catch (Exception exception) {
             System.out.println("Failed to create algorithm.");
         }
@@ -64,8 +65,7 @@ class ControlsDisplay extends JPanel {
     }
 
     private void nextStep(ActionEvent actionEvent) {
-        DataSetModel dataSet = dataBundle.getDataSetModel();
-        algorithm.nextStep(dataSet);
+        algorithm.nextStep();
 
         DataSetDisplay dataSetDisplay = dataBundle.getDataSetDisplay();
         dataSetDisplay.displayDataSet();
