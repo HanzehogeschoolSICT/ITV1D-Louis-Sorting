@@ -14,6 +14,7 @@ public class DataSetDisplay extends JPanel {
         this.dataBundle = dataBundle;
     }
 
+    @Override
     public Dimension getPreferredSize() {
         return new Dimension(Settings.DATA_SET_DISPLAY_WIDTH, Settings.DATA_SET_DISPLAY_HEIGHT);
     }
@@ -22,6 +23,7 @@ public class DataSetDisplay extends JPanel {
         repaint();
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         DataSetModel dataSet = dataBundle.getDataSetModel();
@@ -30,7 +32,7 @@ public class DataSetDisplay extends JPanel {
         int widthPerBar = getWidth() / dataSet.getHighestNumber();
 
         int positionX = 0;
-        for (Integer number: dataSet)
+        for (Integer number : dataSet)
             positionX = drawBar(g, number, positionX, heightPerBar, widthPerBar);
     }
 
@@ -51,7 +53,7 @@ public class DataSetDisplay extends JPanel {
         String numberText = number.toString();
         FontMetrics fontMetrics = graphics.getFontMetrics();
 
-        int x = ((barRectangle.width - fontMetrics.stringWidth(numberText)) / 2) + barRectangle.x;
+        int x = barRectangle.x + ((barRectangle.width - fontMetrics.stringWidth(numberText)) / 2);
         int y = barRectangle.y + fontMetrics.getHeight();
 
         graphics.setColor(Color.WHITE);
