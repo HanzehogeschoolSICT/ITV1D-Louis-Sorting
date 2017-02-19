@@ -11,19 +11,37 @@ import java.awt.*;
 class DataSetDisplay extends JPanel {
     private final DataSetController dataSetController;
 
+    /**
+     * Construct the data set display.
+     *
+     * @param dataSetController Data set controller to use.
+     */
     DataSetDisplay(DataSetController dataSetController) {
         this.dataSetController = dataSetController;
     }
 
+    /**
+     * Get the preferred size of the data set display.
+     *
+     * @return Preferred size of the data set display.
+     */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(Settings.DATA_SET_DISPLAY_WIDTH, Settings.DATA_SET_DISPLAY_HEIGHT);
     }
 
+    /**
+     * Display the current data set.
+     */
     void displayDataSet() {
         repaint();
     }
 
+    /**
+     * Draw the current data set.
+     *
+     * @param graphics Graphics to draw the current data set on.
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
@@ -37,11 +55,19 @@ class DataSetDisplay extends JPanel {
 
         DrawBarDataModel drawBarData = new DrawBarDataModel(heightPerNumber, widthPerBar);
         for (Integer number : dataSet)
-            drawBar(graphics, number, drawBarData, dataSet.getColor(number));
+            drawBar(graphics, number, drawBarData, getBarColor(dataSet, number));
     }
 
+    /**
+     * Draw a single bar on using the specified graphics.
+     *
+     * @param graphics Graphics to draw the bar on.
+     * @param number Number that should be represented by the bar.
+     * @param drawBarData General data to compute the size of the bar.
+     * @param color Color of the bar.
+     */
     private void drawBar(Graphics graphics, Integer number, DrawBarDataModel drawBarData, Color color) {
-        int barHeight = drawBarData.getHeightPerNumber() * number;
+        int barHeight = drawBarData.getHeightForBar(number);
         int x = drawBarData.getCurrentX();
         int y = getHeight() - barHeight;
 
@@ -54,6 +80,13 @@ class DataSetDisplay extends JPanel {
         drawBarData.increaseCurrentX();
     }
 
+    /**
+     * Draw a number in a single bar using the specified graphics.
+     *
+     * @param graphics Graphics to draw the number on.
+     * @param number Number that should be drawn in the bar.
+     * @param barRectangle Area of the bar in the specified graphics.
+     */
     private void drawNumberInBar(Graphics graphics, Integer number, Rectangle barRectangle) {
         String numberText = number.toString();
         FontMetrics fontMetrics = graphics.getFontMetrics();
@@ -63,5 +96,21 @@ class DataSetDisplay extends JPanel {
 
         graphics.setColor(Color.WHITE);
         graphics.drawString(numberText, x, y);
+    }
+
+    /**
+     * Get the color to use to draw the specified number.
+     *
+     * @param number Number to get the color for.
+     * @return Color to use to draw the specified number.
+     */
+    private Color getBarColor(DataSetModel dataSet, int number) {
+        if (dataSet.getIsSorted())
+            return Settings.BAR_SORTED_COLOR;
+
+        if (dataSet.isNumberCompared(number))
+            return Settings.BAR_COMPARED_COLOR;
+
+        return Settings.BAR_COLOR;
     }
 }

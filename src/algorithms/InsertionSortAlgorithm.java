@@ -5,6 +5,11 @@ import models.DataSetModel;
 import java.util.LinkedList;
 
 public class InsertionSortAlgorithm extends Algorithm {
+    /**
+     * Construct the insertion sort algorithm using the specified data set.
+     *
+     * @param dataSet Data set to use with the insertion sort algorithm.
+     */
     public InsertionSortAlgorithm(DataSetModel dataSet) {
         super(dataSet);
 
@@ -13,6 +18,11 @@ public class InsertionSortAlgorithm extends Algorithm {
         workerThread.start();
     }
 
+    /**
+     * Perform the next step of the insertion sort algorithm.
+     *
+     * @return True if the data set has changed, false otherwise.
+     */
     @Override
     public boolean nextStep() {
         synchronized (workerLock) {
@@ -22,6 +32,9 @@ public class InsertionSortAlgorithm extends Algorithm {
     }
 
     private class AlgorithmWorker implements Runnable {
+        /**
+         * Run the insertion sort algorithm.
+         */
         @Override
         public void run() {
             LinkedList<Integer> data = dataSet.getData();
@@ -39,6 +52,12 @@ public class InsertionSortAlgorithm extends Algorithm {
             }
         }
 
+        /**
+         * Insertion sort the given numbers.
+         *
+         * @param numbers Numbers to sort.
+         * @throws InterruptedException When the algorithm is being destroyed.
+         */
         private void insertionSort(LinkedList<Integer> numbers) throws InterruptedException {
             for (int i = 1; i < numbers.size(); i++) {
                 int j = i;

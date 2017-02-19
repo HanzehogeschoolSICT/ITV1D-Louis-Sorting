@@ -1,8 +1,5 @@
 package models;
 
-import data.Settings;
-
-import java.awt.*;
 import java.util.*;
 
 public class DataSetModel implements Iterable<Integer> {
@@ -36,36 +33,66 @@ public class DataSetModel implements Iterable<Integer> {
         return data.iterator();
     }
 
+    /**
+     * Check if a number has been compared in the latest algorithm step.
+     *
+     * @param number Number to check.
+     * @return True if the number has been compared, false otherwise.
+     */
+    public boolean isNumberCompared(int number) {
+        return comparedNumbers.contains(number);
+    }
+
+    /**
+     * Get a value indicating if the data set is fully sorted.
+     *
+     * @return A value indicating if the dat set is fully sorted.
+     */
     public boolean getIsSorted() {
         return isSorted;
     }
 
+    /**
+     * Mark the data set as fully sorted.
+     */
     public void setIsSorted() {
         this.isSorted = true;
     }
 
+    /**
+     * Get the highest number of the data set.
+     *
+     * @return Highest number of the data set.
+     */
     public int getHighestNumber() {
         return highestNumber;
     }
 
-    public Color getColor(int number) {
-        if (isSorted)
-            return Settings.BAR_SORTED_COLOR;
-
-        if (comparedNumbers.contains(number))
-            return Settings.BAR_COMPARED_COLOR;
-
-        return Settings.BAR_COLOR;
-    }
-
+    /**
+     * Get the raw data of this data set.
+     *
+     * @return Raw data of this data set.
+     */
     public LinkedList<Integer> getData() {
         return data;
     }
 
+    /**
+     * Swap 2 items in this data set.
+     *
+     * @param firstIndex Index of the first item to swap.
+     * @param secondIndex Index of the second item to swap.
+     */
     public void swap(int firstIndex, int secondIndex) {
         Collections.swap(data, firstIndex, secondIndex);
     }
 
+    /**
+     * Mark 2 items as compared during the latest algorithm step.
+     *
+     * @param firstIndex Index of the first item to mark.
+     * @param secondIndex Index of the second item to mark.
+     */
     public void markComparedNumbers(int firstIndex, int secondIndex) {
         comparedNumbers.clear();
         comparedNumbers.add(data.get(firstIndex));

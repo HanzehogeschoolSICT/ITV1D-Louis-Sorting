@@ -4,6 +4,11 @@ import displays.MainDisplay;
 import models.DataSetModel;
 
 class Bootstrap {
+    /**
+     * Start the application.
+     *
+     * @param args Any arguments.
+     */
     public static void main(String[] args) {
         DataSetController dataSetController = new DataSetController();
 

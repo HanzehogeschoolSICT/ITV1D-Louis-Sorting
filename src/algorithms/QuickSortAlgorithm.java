@@ -5,6 +5,11 @@ import models.DataSetModel;
 import java.util.LinkedList;
 
 public class QuickSortAlgorithm extends Algorithm {
+    /**
+     * Construct the quick sort algorithm using the specified data set.
+     *
+     * @param dataSet Data set to use with the quick sort algorithm.
+     */
     public QuickSortAlgorithm(DataSetModel dataSet) {
         super(dataSet);
 
@@ -13,6 +18,11 @@ public class QuickSortAlgorithm extends Algorithm {
         workerThread.start();
     }
 
+    /**
+     * Perform the next step of the quick sort algorithm.
+     *
+     * @return True if the data set has changed, false otherwise.
+     */
     @Override
     public boolean nextStep() {
         synchronized (workerLock) {
@@ -22,6 +32,9 @@ public class QuickSortAlgorithm extends Algorithm {
     }
 
     private class AlgorithmWorker implements Runnable {
+        /**
+         * Run the quick sort algorithm.
+         */
         @Override
         public void run() {
             LinkedList<Integer> data = dataSet.getData();
@@ -39,6 +52,14 @@ public class QuickSortAlgorithm extends Algorithm {
             }
         }
 
+        /**
+         * Quick sort the given numbers.
+         *
+         * @param numbers Numbers to quick sort.
+         * @param low Lowest index to sort.
+         * @param high Highest index to sort.
+         * @throws InterruptedException When the algorithm is being destroyed.
+         */
         private void quickSort(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
             if (low < high) {
                 int pivot = partition(numbers, low, high);
@@ -47,6 +68,15 @@ public class QuickSortAlgorithm extends Algorithm {
             }
         }
 
+        /**
+         * Partition the given numbers.
+         *
+         * @param numbers Numbers to partition.
+         * @param low Lowest index to sort.
+         * @param high Highest index to sort.
+         * @return Index of the pivot.
+         * @throws InterruptedException When the algorithm is being destroyed.
+         */
         private int partition(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
             int pivot = numbers.get(high);
             int i = low - 1;

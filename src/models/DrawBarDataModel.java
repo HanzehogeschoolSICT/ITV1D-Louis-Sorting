@@ -5,23 +5,47 @@ public class DrawBarDataModel {
     private final int widthPerBar;
     private int currentX;
 
+    /**
+     * Construct the draw bar data model.
+     *
+     * @param heightPerNumber Height per number of a bar.
+     * @param widthPerBar Width per bar.
+     */
     public DrawBarDataModel(int heightPerNumber, int widthPerBar) {
         this.heightPerNumber = heightPerNumber;
         this.widthPerBar = widthPerBar;
     }
 
+    /**
+     * Get the current X position to draw on.
+     *
+     * @return Current X position to draw on.
+     */
     public int getCurrentX() {
         return currentX;
     }
 
+    /**
+     * Increase the current X position to draw on.
+     */
     public void increaseCurrentX() {
         currentX += this.widthPerBar;
     }
 
-    public int getHeightPerNumber() {
-        return heightPerNumber;
+    /**
+     * Get the height of the bar for the specified number.
+     *
+     * @return Height of the bar for the specified number.
+     */
+    public int getHeightForBar(int number) {
+        return heightPerNumber * number;
     }
 
+    /**
+     * Get the width per bar.
+     *
+     * @return Width per bar.
+     */
     public int getWidthPerBar() {
         return widthPerBar;
     }

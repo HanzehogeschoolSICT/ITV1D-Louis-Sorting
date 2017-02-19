@@ -22,6 +22,11 @@ class BottomControlsDisplay extends JPanel {
     private JButton autoNextStepButton;
     private JSpinner autoNextStepSpinner;
 
+    /**
+     * Construct the bottom controls display.
+     *
+     * @param dataSetController Data set controller to use.
+     */
     BottomControlsDisplay(DataSetController dataSetController) {
         this.dataSetController = dataSetController;
         setLayout(new FlowLayout(FlowLayout.CENTER, Settings.COMPONENT_SPACING, Settings.COMPONENT_SPACING));
@@ -31,6 +36,9 @@ class BottomControlsDisplay extends JPanel {
         initializeAutoNextStep();
     }
 
+    /**
+     * Initialize the algorithm selector.
+     */
     private void initializeAlgorithms() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
         algorithmHashMap.put("InsertionSort", InsertionSortAlgorithm::new);
@@ -47,6 +55,11 @@ class BottomControlsDisplay extends JPanel {
         add(algorithmComboBox);
     }
 
+    /**
+     * Handle an algorithm change.
+     *
+     * @param actionEvent Action event for the change.
+     */
     private void algorithmSelected(ActionEvent actionEvent) {
         JComboBox algorithmComboBox = (JComboBox) actionEvent.getSource();
         String algorithmName = (String) algorithmComboBox.getSelectedItem();
@@ -59,16 +72,27 @@ class BottomControlsDisplay extends JPanel {
         }
     }
 
+    /**
+     * Initialize the next step button.
+     */
     private void initializeNextStep() {
         JButton nextStepButton = new JButton("Next Step");
         nextStepButton.addActionListener(this::nextStep);
         add(nextStepButton);
     }
 
+    /**
+     * Handle a next step request.
+     *
+     * @param actionEvent Action event for the change.
+     */
     private void nextStep(ActionEvent actionEvent) {
         dataSetController.nextAlgorithmStep();
     }
 
+    /**
+     * Initialize the auto next step controls.
+     */
     private void initializeAutoNextStep() {
         autoNextStepButton = new JButton("Start Auto Next Step");
         autoNextStepButton.addActionListener(this::autoNextStepToggle);
@@ -85,6 +109,11 @@ class BottomControlsDisplay extends JPanel {
         autoNextStepTimer = new Timer(0, this::nextStep);
     }
 
+    /**
+     * Handle the auto next step toggle request.
+     *
+     * @param actionEvent Action event for the request.
+     */
     private void autoNextStepToggle(ActionEvent actionEvent) {
         if (autoNextStepTimer.isRunning()) {
             autoNextStepTimer.stop();
