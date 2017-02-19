@@ -32,6 +32,9 @@ class DataSetDisplay extends JPanel {
         int heightPerNumber = getHeight() / dataSet.getHighestNumber();
         int widthPerBar = getWidth() / dataSet.getHighestNumber();
 
+        graphics.setColor(Settings.BACKGROUND_COLOR);
+        graphics.fillRect(0, 0, getWidth(), getHeight());
+
         DrawBarDataModel drawBarData = new DrawBarDataModel(heightPerNumber, widthPerBar);
         for (Integer number : dataSet)
             drawBar(graphics, number, drawBarData, dataSet.getColor(number));

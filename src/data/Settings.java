@@ -18,6 +18,7 @@ public class Settings {
 
     public static final int COMPONENT_SPACING = 5;
 
+    public static final Color BACKGROUND_COLOR = new Color(207, 216, 220);
     public static final Color BAR_COLOR = new Color(41, 98, 255);
     public static final Color BAR_SORTED_COLOR = new Color(27, 94, 32);
     public static final Color BAR_COMPARED_COLOR = new Color(213, 0, 0);
