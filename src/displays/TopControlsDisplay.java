@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 
 class TopControlsDisplay extends JPanel {
     private final DataSetController dataSetController;
+    private JSpinner dataSetItems;
 
     TopControlsDisplay(DataSetController dataSetController) {
         this.dataSetController = dataSetController;
@@ -17,8 +18,6 @@ class TopControlsDisplay extends JPanel {
 
         initializeDataSet();
     }
-
-    private JSpinner dataSetItems;
 
     private void initializeDataSet() {
         JLabel dataSetLabel = new JLabel("Data set:");
@@ -38,7 +37,7 @@ class TopControlsDisplay extends JPanel {
     }
 
     private void newDataSet(ActionEvent actionEvent) {
-        int items = (int)dataSetItems.getValue();
+        int items = (int) dataSetItems.getValue();
         DataSetModel dataSet = new DataSetModel(items);
         dataSetController.changeDataSet(dataSet);
     }

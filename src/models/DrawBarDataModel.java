@@ -1,9 +1,9 @@
 package models;
 
 public class DrawBarDataModel {
-    private int currentX;
     private final int heightPerNumber;
     private final int widthPerBar;
+    private int currentX;
 
     public DrawBarDataModel(int heightPerNumber, int widthPerBar) {
         this.heightPerNumber = heightPerNumber;

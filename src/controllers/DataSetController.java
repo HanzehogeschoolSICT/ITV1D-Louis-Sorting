@@ -10,7 +10,8 @@ public class DataSetController {
     private Function<DataSetModel, Algorithm> algorithmFactory;
 
     private DataSetModel dataSet;
-    
+    private Runnable updateDataSetDisplay;
+
     public void changeAlgorithm(Function<DataSetModel, Algorithm> algorithmFactory) {
         if (this.algorithm != null)
             this.algorithm.destroy();
@@ -20,8 +21,8 @@ public class DataSetController {
     }
 
     public void nextAlgorithmStep() {
-        algorithm.nextStep();
-        updateDataSetDisplay();
+        if (algorithm.nextStep())
+            updateDataSetDisplay();
     }
 
     public DataSetModel getDataSet() {
@@ -36,8 +37,6 @@ public class DataSetController {
 
         updateDataSetDisplay();
     }
-
-    private Runnable updateDataSetDisplay;
 
     public void setUpdateDataSetDisplay(Runnable updateDataSetDisplay) {
         this.updateDataSetDisplay = updateDataSetDisplay;

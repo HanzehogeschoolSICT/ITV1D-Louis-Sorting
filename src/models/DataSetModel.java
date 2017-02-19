@@ -6,13 +6,14 @@ import java.awt.*;
 import java.util.*;
 
 public class DataSetModel implements Iterable<Integer> {
-    private boolean isSorted = false;
     private final int highestNumber;
     private final LinkedList<Integer> data;
     private final Set<Integer> comparedNumbers;
+    private boolean isSorted = false;
 
     /**
      * Initialize the data set with numbers from 1 to N in a random order.
+     *
      * @param n Number of numbers in the data set.
      */
     public DataSetModel(int n) {
@@ -27,11 +28,16 @@ public class DataSetModel implements Iterable<Integer> {
 
     /**
      * Returns an iterator for all numbers in the data set.
+     *
      * @return An iterator for all numbers in the data set.
      */
     @Override
     public Iterator<Integer> iterator() {
         return data.iterator();
+    }
+
+    public boolean getIsSorted() {
+        return isSorted;
     }
 
     public void setIsSorted() {

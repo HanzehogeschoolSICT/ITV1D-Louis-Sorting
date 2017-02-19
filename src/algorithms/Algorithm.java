@@ -3,10 +3,9 @@ package algorithms;
 import models.DataSetModel;
 
 public abstract class Algorithm {
-    Thread workerThread;
-    boolean isSorted = false;
     final DataSetModel dataSet;
     final Object workerLock = new Object();
+    Thread workerThread;
 
     Algorithm(DataSetModel dataSet) {
         this.dataSet = dataSet;

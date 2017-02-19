@@ -17,7 +17,7 @@ public class InsertionSortAlgorithm extends Algorithm {
     public boolean nextStep() {
         synchronized (workerLock) {
             workerLock.notify();
-            return !isSorted;
+            return !dataSet.getIsSorted();
         }
     }
 
@@ -31,8 +31,8 @@ public class InsertionSortAlgorithm extends Algorithm {
 
                 synchronized (workerLock) {
                     workerLock.wait();
+
                     dataSet.setIsSorted();
-                    isSorted = true;
                 }
             } catch (InterruptedException e) {
                 System.out.println("InsertionSort has been destroyed.");
