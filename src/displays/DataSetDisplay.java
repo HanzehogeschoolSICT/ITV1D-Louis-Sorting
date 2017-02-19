@@ -8,7 +8,7 @@ import models.DrawBarDataModel;
 import javax.swing.*;
 import java.awt.*;
 
-public class DataSetDisplay extends JPanel {
+class DataSetDisplay extends JPanel {
     private final DataSetController dataSetController;
 
     DataSetDisplay(DataSetController dataSetController) {

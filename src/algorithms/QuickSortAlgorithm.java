@@ -21,11 +21,6 @@ public class QuickSortAlgorithm extends Algorithm {
         }
     }
 
-    @Override
-    public void destroy() {
-        workerThread.interrupt();
-    }
-
     private class AlgorithmWorker implements Runnable {
         @Override
         public void run() {
@@ -40,7 +35,7 @@ public class QuickSortAlgorithm extends Algorithm {
                     isSorted = true;
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("QuickSort has been destroyed.");
             }
         }
 

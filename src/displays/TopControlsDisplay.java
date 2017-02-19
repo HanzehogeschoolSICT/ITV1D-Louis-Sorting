@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 class TopControlsDisplay extends JPanel {
-    private DataSetController dataSetController;
+    private final DataSetController dataSetController;
 
     TopControlsDisplay(DataSetController dataSetController) {
         this.dataSetController = dataSetController;

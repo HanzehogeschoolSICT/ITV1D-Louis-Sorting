@@ -2,8 +2,6 @@ package algorithms;
 
 import models.DataSetModel;
 
-import java.util.LinkedList;
-
 public abstract class Algorithm {
     Thread workerThread;
     boolean isSorted = false;
@@ -16,5 +14,8 @@ public abstract class Algorithm {
 
     public abstract boolean nextStep();
 
-    public abstract void destroy();
+    public void destroy() {
+        if (workerThread != null)
+            workerThread.interrupt();
+    }
 }
