@@ -2,6 +2,9 @@ package data;
 
 public class Settings {
     public static final int DATA_SET_SIZE = 6;
+    public static final int DATA_SET_SIZE_MINIMUM = 2;
+    public static final int DATA_SET_SIZE_MAXIMUM = 20;
+    public static final int DATA_SET_STEP_SIZE = 1;
 
     public static final int DATA_SET_DISPLAY_WIDTH = 500;
     public static final int DATA_SET_DISPLAY_HEIGHT = 300;

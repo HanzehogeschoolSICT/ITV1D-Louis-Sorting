@@ -15,10 +15,10 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.function.Function;
 
-class ControlsDisplay extends JPanel {
+class BottomControlsDisplay extends JPanel {
     private final DataBundleModel dataBundle;
 
-    ControlsDisplay(DataBundleModel dataBundle) {
+    BottomControlsDisplay(DataBundleModel dataBundle) {
         this.dataBundle = dataBundle;
         setLayout(new FlowLayout(FlowLayout.CENTER, Settings.COMPONENT_SPACING, Settings.COMPONENT_SPACING));
 

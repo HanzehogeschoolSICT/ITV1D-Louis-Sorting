@@ -23,13 +23,16 @@ public class MainDisplay extends JFrame {
     }
 
     private void initializeViews(DataBundleModel dataBundle) {
+        TopControlsDisplay topControlsDisplay = new TopControlsDisplay(dataBundle);
+        add(topControlsDisplay);
+
         DataSetDisplay dataSetDisplay = new DataSetDisplay(dataBundle);
         dataBundle.setDataSetDisplay(dataSetDisplay);
         dataSetDisplay.displayDataSet();
         add(dataSetDisplay);
 
-        ControlsDisplay controlsDisplay = new ControlsDisplay(dataBundle);
-        add(controlsDisplay);
+        BottomControlsDisplay bottomControlsDisplay = new BottomControlsDisplay(dataBundle);
+        add(bottomControlsDisplay);
     }
 
     private void setSystemLookAndFeel() {
