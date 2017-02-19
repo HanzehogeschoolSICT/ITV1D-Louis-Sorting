@@ -45,13 +45,13 @@ public class InsertionSortAlgorithm extends Algorithm {
                     synchronized (workerLock) {
                         workerLock.wait();
                         dataSet.markComparedNumbers(j, j - 1);
-                    }
 
-                    if (numbers.get(j - 1) > numbers.get(j)) {
-                        dataSet.swap(j, j - 1);
-                        j--;
-                    } else {
-                        break;
+                        if (numbers.get(j - 1) > numbers.get(j)) {
+                            dataSet.swap(j, j - 1);
+                            j--;
+                        } else {
+                            break;
+                        }
                     }
                 }
             }

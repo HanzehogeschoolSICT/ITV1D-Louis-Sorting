@@ -53,20 +53,20 @@ public class QuickSortAlgorithm extends Algorithm {
                 synchronized (workerLock) {
                     workerLock.wait();
                     dataSet.markComparedNumbers(j, high);
-                }
 
-                if (numbers.get(j) <= pivot) {
-                    i++;
-                    dataSet.swap(i, j);
+                    if (numbers.get(j) <= pivot) {
+                        i++;
+                        dataSet.swap(i, j);
+                    }
                 }
             }
 
             synchronized (workerLock) {
                 workerLock.wait();
                 dataSet.markComparedNumbers(i + 1, high);
-            }
 
-            dataSet.swap(i + 1, high);
+                dataSet.swap(i + 1, high);
+            }
 
             return i + 1;
         }

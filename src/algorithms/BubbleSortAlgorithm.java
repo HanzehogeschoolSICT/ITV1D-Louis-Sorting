@@ -48,11 +48,11 @@ public class BubbleSortAlgorithm extends Algorithm {
                     synchronized (workerLock) {
                         workerLock.wait();
                         dataSet.markComparedNumbers(i - 1, i);
-                    }
 
-                    if (numbers.get(i - 1) > numbers.get(i)) {
-                        dataSet.swap(i - 1, i);
-                        swapped = true;
+                        if (numbers.get(i - 1) > numbers.get(i)) {
+                            dataSet.swap(i - 1, i);
+                            swapped = true;
+                        }
                     }
                 }
             } while (swapped);
