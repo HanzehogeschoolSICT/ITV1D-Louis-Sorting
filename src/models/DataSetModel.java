@@ -1,5 +1,7 @@
 package models;
 
+import data.Settings;
+
 import java.awt.*;
 import java.util.*;
 
@@ -42,12 +44,12 @@ public class DataSetModel implements Iterable<Integer> {
 
     public Color getColor(int number) {
         if (isSorted)
-            return new Color(27, 94, 32);
+            return Settings.BAR_SORTED_COLOR;
 
         if (comparedNumbers.contains(number))
-            return new Color(213, 0, 0);
+            return Settings.BAR_COMPARED_COLOR;
 
-        return new Color(41, 98, 255);
+        return Settings.BAR_COLOR;
     }
 
     public LinkedList<Integer> getData() {

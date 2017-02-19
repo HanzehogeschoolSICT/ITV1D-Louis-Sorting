@@ -74,7 +74,7 @@ class BottomControlsDisplay extends JPanel {
         autoNextStepButton.addActionListener(this::autoNextStepToggle);
         add(autoNextStepButton);
 
-        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(Settings.AUTO_NEXT_VALUE_MS,
+        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(Settings.AUTO_NEXT_MS,
                 Settings.AUTO_NEXT_MINIMUM_MS, Settings.AUTO_NEXT_MAXIMUM_MS, Settings.AUTO_NEXT_STEP_SIZE);
         autoNextStepSpinner = new JSpinner(spinnerNumberModel);
         add(autoNextStepSpinner);

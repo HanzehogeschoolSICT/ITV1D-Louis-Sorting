@@ -25,7 +25,7 @@ class TopControlsDisplay extends JPanel {
         add(dataSetLabel);
 
         SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(Settings.DATA_SET_SIZE,
-                Settings.DATA_SET_SIZE_MINIMUM, Settings.DATA_SET_SIZE_MAXIMUM, Settings.DATA_SET_STEP_SIZE);
+                Settings.DATA_SET_MINIMUM_SIZE, Settings.DATA_SET_MAXIMUM_SIZE, Settings.DATA_SET_STEP_SIZE);
         dataSetItems = new JSpinner(spinnerNumberModel);
         add(dataSetItems);
 
