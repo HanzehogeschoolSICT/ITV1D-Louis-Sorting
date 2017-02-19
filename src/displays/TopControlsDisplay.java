@@ -1,4 +1,4 @@
-package gui;
+package displays;
 
 import data.Settings;
 import models.DataBundleModel;

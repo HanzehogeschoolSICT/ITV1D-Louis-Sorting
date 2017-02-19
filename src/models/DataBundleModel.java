@@ -1,6 +1,6 @@
 package models;
 
-import gui.DataSetDisplay;
+import displays.DataSetDisplay;
 
 public class DataBundleModel {
     private DataSetModel dataSetModel;

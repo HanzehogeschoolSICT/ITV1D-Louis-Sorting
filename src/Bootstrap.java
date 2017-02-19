@@ -1,5 +1,5 @@
 import data.Settings;
-import gui.MainDisplay;
+import displays.MainDisplay;
 import models.DataBundleModel;
 import models.DataSetModel;
 

@@ -1,4 +1,4 @@
-package gui;
+package displays;
 
 import algorithms.Algorithm;
 import algorithms.BubbleSortAlgorithm;
