@@ -1,15 +1,15 @@
+import controllers.DataSetController;
 import data.Settings;
 import displays.MainDisplay;
-import models.DataBundleModel;
 import models.DataSetModel;
 
 class Bootstrap {
     public static void main(String[] args) {
+        DataSetController dataSetController = new DataSetController();
+
         DataSetModel dataSet = new DataSetModel(Settings.DATA_SET_SIZE);
+        dataSetController.changeDataSet(dataSet);
 
-        DataBundleModel dataBundle = new DataBundleModel();
-        dataBundle.setDataSetModel(dataSet);
-
-        new MainDisplay(dataBundle);
+        new MainDisplay(dataSetController);
     }
 }

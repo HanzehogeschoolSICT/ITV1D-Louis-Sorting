@@ -4,8 +4,8 @@ import algorithms.Algorithm;
 import algorithms.BubbleSortAlgorithm;
 import algorithms.InsertionSortAlgorithm;
 import algorithms.QuickSortAlgorithm;
+import controllers.DataSetController;
 import data.Settings;
-import models.DataBundleModel;
 import models.DataSetModel;
 
 import javax.swing.*;
@@ -16,19 +16,20 @@ import java.util.Set;
 import java.util.function.Function;
 
 class BottomControlsDisplay extends JPanel {
-    private final DataBundleModel dataBundle;
+    private final DataSetController dataSetController;
+    private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
+    private Timer autoNextStepTimer;
+    private JButton autoNextStepButton;
+    private JSpinner autoNextStepSpinner;
 
-    BottomControlsDisplay(DataBundleModel dataBundle) {
-        this.dataBundle = dataBundle;
+    BottomControlsDisplay(DataSetController dataSetController) {
+        this.dataSetController = dataSetController;
         setLayout(new FlowLayout(FlowLayout.CENTER, Settings.COMPONENT_SPACING, Settings.COMPONENT_SPACING));
 
         initializeAlgorithms();
         initializeNextStep();
         initializeAutoNextStep();
     }
-
-    private Algorithm algorithm;
-    private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
 
     private void initializeAlgorithms() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
@@ -47,12 +48,12 @@ class BottomControlsDisplay extends JPanel {
     }
 
     private void algorithmSelected(ActionEvent actionEvent) {
-        JComboBox algorithmComboBox = (JComboBox)actionEvent.getSource();
-        String algorithmName = (String)algorithmComboBox.getSelectedItem();
-        DataSetModel dataSet = dataBundle.getDataSetModel();
+        JComboBox algorithmComboBox = (JComboBox) actionEvent.getSource();
+        String algorithmName = (String) algorithmComboBox.getSelectedItem();
 
         try {
-            algorithm = algorithmHashMap.get(algorithmName).apply(dataSet);
+            Function<DataSetModel, Algorithm> algorithmFactory = algorithmHashMap.get(algorithmName);
+            dataSetController.changeAlgorithm(algorithmFactory);
         } catch (Exception exception) {
             System.out.println("Failed to create algorithm.");
         }
@@ -65,15 +66,8 @@ class BottomControlsDisplay extends JPanel {
     }
 
     private void nextStep(ActionEvent actionEvent) {
-        algorithm.nextStep();
-
-        DataSetDisplay dataSetDisplay = dataBundle.getDataSetDisplay();
-        dataSetDisplay.displayDataSet();
+        dataSetController.nextAlgorithmStep();
     }
-
-    private Timer autoNextStepTimer;
-    private JButton autoNextStepButton;
-    private JSpinner autoNextStepSpinner;
 
     private void initializeAutoNextStep() {
         autoNextStepButton = new JButton("Start Auto Next Step");
@@ -98,7 +92,7 @@ class BottomControlsDisplay extends JPanel {
             autoNextStepSpinner.setEnabled(true);
             autoNextStepButton.setText("Start Auto Next Step");
         } else {
-            int autoNextStepMs = (int)autoNextStepSpinner.getValue();
+            int autoNextStepMs = (int) autoNextStepSpinner.getValue();
             autoNextStepTimer.setDelay(autoNextStepMs);
             autoNextStepTimer.start();
 

@@ -9,7 +9,8 @@ public class QuickSortAlgorithm extends Algorithm {
         super(dataSet);
 
         AlgorithmWorker algorithmWorker = new AlgorithmWorker();
-        new Thread(algorithmWorker).start();
+        workerThread = new Thread(algorithmWorker);
+        workerThread.start();
     }
 
     @Override
@@ -18,6 +19,11 @@ public class QuickSortAlgorithm extends Algorithm {
             workerLock.notify();
             return !isSorted;
         }
+    }
+
+    @Override
+    public void destroy() {
+        workerThread.interrupt();
     }
 
     private class AlgorithmWorker implements Runnable {

@@ -1,7 +1,7 @@
 package displays;
 
+import controllers.DataSetController;
 import data.Settings;
-import models.DataBundleModel;
 import models.DataSetModel;
 
 import javax.swing.*;
@@ -9,10 +9,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 class TopControlsDisplay extends JPanel {
-    private DataBundleModel dataBundle;
+    private DataSetController dataSetController;
 
-    TopControlsDisplay(DataBundleModel dataBundle) {
-        this.dataBundle = dataBundle;
+    TopControlsDisplay(DataSetController dataSetController) {
+        this.dataSetController = dataSetController;
         setLayout(new FlowLayout(FlowLayout.CENTER, Settings.COMPONENT_SPACING, Settings.COMPONENT_SPACING));
 
         initializeDataSet();
@@ -40,7 +40,6 @@ class TopControlsDisplay extends JPanel {
     private void newDataSet(ActionEvent actionEvent) {
         int items = (int)dataSetItems.getValue();
         DataSetModel dataSet = new DataSetModel(items);
-        dataBundle.setDataSetModel(dataSet);
-        dataBundle.getDataSetDisplay().displayDataSet();
+        dataSetController.changeDataSet(dataSet);
     }
 }

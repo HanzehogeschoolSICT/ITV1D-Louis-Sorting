@@ -1,12 +1,12 @@
 package displays;
 
-import models.DataBundleModel;
+import controllers.DataSetController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainDisplay extends JFrame {
-    public MainDisplay(DataBundleModel dataBundle) {
+    public MainDisplay(DataSetController dataSetController) {
         setTitle("Sorting");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -14,7 +14,7 @@ public class MainDisplay extends JFrame {
         Container container = getContentPane();
         setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        initializeViews(dataBundle);
+        initializeViews(dataSetController);
         setSystemLookAndFeel();
 
         pack();
@@ -22,16 +22,15 @@ public class MainDisplay extends JFrame {
         setVisible(true);
     }
 
-    private void initializeViews(DataBundleModel dataBundle) {
-        TopControlsDisplay topControlsDisplay = new TopControlsDisplay(dataBundle);
+    private void initializeViews(DataSetController dataSetController) {
+        TopControlsDisplay topControlsDisplay = new TopControlsDisplay(dataSetController);
         add(topControlsDisplay);
 
-        DataSetDisplay dataSetDisplay = new DataSetDisplay(dataBundle);
-        dataBundle.setDataSetDisplay(dataSetDisplay);
-        dataSetDisplay.displayDataSet();
+        DataSetDisplay dataSetDisplay = new DataSetDisplay(dataSetController);
+        dataSetController.setUpdateDataSetDisplay(dataSetDisplay::displayDataSet);
         add(dataSetDisplay);
 
-        BottomControlsDisplay bottomControlsDisplay = new BottomControlsDisplay(dataBundle);
+        BottomControlsDisplay bottomControlsDisplay = new BottomControlsDisplay(dataSetController);
         add(bottomControlsDisplay);
     }
 

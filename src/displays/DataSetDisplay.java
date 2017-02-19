@@ -1,7 +1,7 @@
 package displays;
 
+import controllers.DataSetController;
 import data.Settings;
-import models.DataBundleModel;
 import models.DataSetModel;
 import models.DrawBarDataModel;
 
@@ -9,10 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DataSetDisplay extends JPanel {
-    private final DataBundleModel dataBundle;
+    private final DataSetController dataSetController;
 
-    DataSetDisplay(DataBundleModel dataBundle) {
-        this.dataBundle = dataBundle;
+    DataSetDisplay(DataSetController dataSetController) {
+        this.dataSetController = dataSetController;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class DataSetDisplay extends JPanel {
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        DataSetModel dataSet = dataBundle.getDataSetModel();
+        DataSetModel dataSet = dataSetController.getDataSet();
 
         int heightPerNumber = getHeight() / dataSet.getHighestNumber();
         int widthPerBar = getWidth() / dataSet.getHighestNumber();
