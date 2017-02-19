@@ -7,7 +7,7 @@ public class DataSetModel implements Iterable<Integer> {
     private boolean isSorted = false;
     private final int highestNumber;
     private final LinkedList<Integer> data;
-    private final Set<Integer> latestChanges;
+    private final Set<Integer> comparedNumbers;
 
     /**
      * Initialize the data set with numbers from 1 to N in a random order.
@@ -16,7 +16,7 @@ public class DataSetModel implements Iterable<Integer> {
     public DataSetModel(int n) {
         highestNumber = n;
         data = new LinkedList<>();
-        latestChanges = new HashSet<>();
+        comparedNumbers = new HashSet<>();
 
         Random random = new Random();
         for (int i = 1; i <= n; i++)
@@ -40,17 +40,11 @@ public class DataSetModel implements Iterable<Integer> {
         return highestNumber;
     }
 
-    public void setLatestChanges(int... numbers) {
-        latestChanges.clear();
-        for (int number : numbers)
-            latestChanges.add(number);
-    }
-
     public Color getColor(int number) {
         if (isSorted)
             return new Color(27, 94, 32);
 
-        if (latestChanges.contains(number))
+        if (comparedNumbers.contains(number))
             return new Color(213, 0, 0);
 
         return new Color(41, 98, 255);
@@ -58,5 +52,15 @@ public class DataSetModel implements Iterable<Integer> {
 
     public LinkedList<Integer> getData() {
         return data;
+    }
+
+    public void swap(int firstIndex, int secondIndex) {
+        Collections.swap(data, firstIndex, secondIndex);
+    }
+
+    public void markComparedNumbers(int firstIndex, int secondIndex) {
+        comparedNumbers.clear();
+        comparedNumbers.add(data.get(firstIndex));
+        comparedNumbers.add(data.get(secondIndex));
     }
 }
