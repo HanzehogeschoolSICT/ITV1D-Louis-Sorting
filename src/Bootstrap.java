@@ -1,3 +1,4 @@
+import data.DataManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,5 +38,11 @@ public class Bootstrap extends Application {
         } catch (IOException exception) {
             System.out.println("Failed to load GUI");
         }
+    }
+
+    @Override
+    public void stop() {
+        // Kill the current algorithm to allow the program to exit.
+        DataManager.setAlgorithm(null);
     }
 }

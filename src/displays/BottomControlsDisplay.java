@@ -4,7 +4,9 @@ import algorithms.Algorithm;
 import algorithms.BubbleSortAlgorithm;
 import algorithms.InsertionSortAlgorithm;
 import algorithms.QuickSortAlgorithm;
+import data.DataManager;
 import data.Settings;
+import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +33,9 @@ public class BottomControlsDisplay {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
         algorithmHashMap.put("InsertionSort", InsertionSortAlgorithm::new);
         algorithmHashMap.put("QuickSort", QuickSortAlgorithm::new);
+
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        dataSetProperty.addListener(((observable, oldValue, newValue) -> applyAlgorithm(newValue)));
     }
 
     @FXML
@@ -52,7 +57,10 @@ public class BottomControlsDisplay {
 
     @FXML
     private void onAlgorithmsComboBoxAction(ActionEvent actionEvent) {
-        String algorithmName = algorithmsComboBox.getValue();
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        DataSetModel dataSet = dataSetProperty.getValue();
+
+        applyAlgorithm(dataSet);
     }
 
     @FXML
@@ -63,5 +71,13 @@ public class BottomControlsDisplay {
     @FXML
     private void onAutoNextStepButtonAction(ActionEvent actionEvent) {
 
+    }
+
+    private void applyAlgorithm(DataSetModel dataSet) {
+        String algorithmName = algorithmsComboBox.getValue();
+        Function<DataSetModel, Algorithm> algorithmFactory = algorithmHashMap.get(algorithmName);
+        Algorithm algorithm = algorithmFactory.apply(dataSet);
+
+        DataManager.setAlgorithm(algorithm);
     }
 }
