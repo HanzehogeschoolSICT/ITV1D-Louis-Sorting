@@ -24,7 +24,7 @@ public class BottomControlsDisplay {
     private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
 
     @FXML
-    private ComboBox<String> algorithmsComboBox;
+    private ChoiceBox<String> algorithmsChoiceBox;
 
     @FXML
     private Button nextStepButton;
@@ -55,10 +55,10 @@ public class BottomControlsDisplay {
     public void initialize() {
         Set<String> algorithmNames = algorithmHashMap.keySet();
         ObservableList<String> algorithmNameList = FXCollections.observableArrayList(algorithmNames);
-        algorithmsComboBox.setItems(algorithmNameList);
+        algorithmsChoiceBox.setItems(algorithmNameList);
 
         // Make sure an algorithm is selected.
-        SelectionModel<String> selectionModel = algorithmsComboBox.getSelectionModel();
+        SelectionModel<String> selectionModel = algorithmsChoiceBox.getSelectionModel();
         selectionModel.selectFirst();
 
         SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory =
@@ -74,7 +74,7 @@ public class BottomControlsDisplay {
      * @param actionEvent Event for the action.
      */
     @FXML
-    private void onAlgorithmsComboBoxAction(ActionEvent actionEvent) {
+    private void onAlgorithmsChoiceBoxAction(ActionEvent actionEvent) {
         Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
         DataSetModel dataSet = dataSetProperty.getValue();
 
@@ -129,7 +129,7 @@ public class BottomControlsDisplay {
      * @param dataSet Data set to use with the algorithm.
      */
     private void applyAlgorithm(DataSetModel dataSet) {
-        String algorithmName = algorithmsComboBox.getValue();
+        String algorithmName = algorithmsChoiceBox.getValue();
         Function<DataSetModel, Algorithm> algorithmFactory = algorithmHashMap.get(algorithmName);
         Algorithm algorithm = algorithmFactory.apply(dataSet);
 

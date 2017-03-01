@@ -8,8 +8,9 @@ import models.DataSetModel;
 import java.util.Timer;
 
 public class DataManager {
-    private static final Property<DataSetModel> dataSetProperty = new SimpleObjectProperty<>();
-    private static final Property<Integer> currentStepProperty = new SimpleObjectProperty<>();
+    private static final Property<DataSetModel> dataSetProperty =
+            new SimpleObjectProperty<>(new DataSetModel(Settings.DATA_SET_SIZE));
+    private static final Property<Integer> currentStepProperty = new SimpleObjectProperty<>(0);
 
     private static final Timer timer = new Timer();
 
