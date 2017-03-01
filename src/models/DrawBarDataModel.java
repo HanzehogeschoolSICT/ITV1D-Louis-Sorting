@@ -9,7 +9,7 @@ public class DrawBarDataModel {
      * Construct the draw bar data model.
      *
      * @param heightPerNumber Height per number of a bar.
-     * @param widthPerBar Width per bar.
+     * @param widthPerBar     Width per bar.
      */
     public DrawBarDataModel(double heightPerNumber, double widthPerBar) {
         this.heightPerNumber = heightPerNumber;

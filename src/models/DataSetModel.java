@@ -80,7 +80,7 @@ public class DataSetModel implements Iterable<Integer> {
     /**
      * Swap 2 items in this data set.
      *
-     * @param firstIndex Index of the first item to swap.
+     * @param firstIndex  Index of the first item to swap.
      * @param secondIndex Index of the second item to swap.
      */
     public void swap(int firstIndex, int secondIndex) {
@@ -90,7 +90,7 @@ public class DataSetModel implements Iterable<Integer> {
     /**
      * Mark 2 items as compared during the latest algorithm step.
      *
-     * @param firstIndex Index of the first item to mark.
+     * @param firstIndex  Index of the first item to mark.
      * @param secondIndex Index of the second item to mark.
      */
     public void markComparedNumbers(int firstIndex, int secondIndex) {

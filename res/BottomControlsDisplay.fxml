@@ -15,7 +15,7 @@
     </padding>
     <ComboBox fx:id="algorithmsComboBox" onAction="#onAlgorithmsComboBoxAction"/>
     <Button text="Next Step" onAction="#onNextStepButtonAction"/>
-    <Button text="Start Auto Next Step" onAction="#onAutoNextStepButtonAction"/>
+    <Button text="Start Auto Next Step" fx:id="autoNextStepButton" onAction="#onAutoNextStepButtonAction"/>
     <Label text="ms">
         <graphic>
             <Spinner fx:id="autoNextStepSpinner"/>

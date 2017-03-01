@@ -11,23 +11,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.SelectionModel;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import models.DataSetModel;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Function;
 
 public class BottomControlsDisplay {
+    private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
     @FXML
     private ComboBox<String> algorithmsComboBox;
     @FXML
     private Spinner<Integer> autoNextStepSpinner;
-
-    private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
+    @FXML
+    private Button autoNextStepButton;
+    private Timer autoNextStepTimer = new Timer();
+    private TimerTask autoNextStepTimerTask = null;
 
     public BottomControlsDisplay() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
@@ -70,7 +72,17 @@ public class BottomControlsDisplay {
 
     @FXML
     private void onAutoNextStepButtonAction(ActionEvent actionEvent) {
+        if (autoNextStepTimerTask == null) {
+            autoNextStepButton.setText("Stop Auto Next Step");
 
+            int interval = autoNextStepSpinner.getValue();
+            autoExecuteNextStep(interval);
+        } else {
+            autoNextStepButton.setText("Start Auto Next Step");
+
+            autoNextStepTimerTask.cancel();
+            autoNextStepTimerTask = null;
+        }
     }
 
     private void applyAlgorithm(DataSetModel dataSet) {
@@ -79,6 +91,17 @@ public class BottomControlsDisplay {
         Algorithm algorithm = algorithmFactory.apply(dataSet);
 
         DataManager.setAlgorithm(algorithm);
+    }
+
+    private void autoExecuteNextStep(int interval) {
+        autoNextStepTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                executeNextStep();
+            }
+        };
+
+        autoNextStepTimer.schedule(autoNextStepTimerTask, 0, interval);
     }
 
     private void executeNextStep() {

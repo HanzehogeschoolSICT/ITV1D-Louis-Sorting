@@ -63,8 +63,8 @@ public class QuickSortAlgorithm extends Algorithm {
          * Quick sort the given numbers.
          *
          * @param numbers Numbers to quick sort.
-         * @param low Lowest index to sort.
-         * @param high Highest index to sort.
+         * @param low     Lowest index to sort.
+         * @param high    Highest index to sort.
          * @throws InterruptedException When the algorithm is being destroyed.
          */
         private void quickSort(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
@@ -79,8 +79,8 @@ public class QuickSortAlgorithm extends Algorithm {
          * Partition the given numbers.
          *
          * @param numbers Numbers to partition.
-         * @param low Lowest index to sort.
-         * @param high Highest index to sort.
+         * @param low     Lowest index to sort.
+         * @param high    Highest index to sort.
          * @return Index of the pivot.
          * @throws InterruptedException When the algorithm is being destroyed.
          */

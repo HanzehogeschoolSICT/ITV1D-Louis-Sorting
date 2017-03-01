@@ -19,14 +19,14 @@ public class DataManager {
         return currentStepProperty;
     }
 
+    public static Algorithm getAlgorithm() {
+        return algorithm;
+    }
+
     public static void setAlgorithm(Algorithm algorithm) {
         if (DataManager.algorithm != null)
             DataManager.algorithm.destroy();
 
         DataManager.algorithm = algorithm;
-    }
-
-    public static Algorithm getAlgorithm() {
-        return algorithm;
     }
 }
