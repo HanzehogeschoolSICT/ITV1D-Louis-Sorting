@@ -20,6 +20,11 @@ public class DataSetDisplay {
 
     private GraphicsContext graphics;
 
+    @FXML
+    public void initialize() {
+        graphics = dataSetCanvas.getGraphicsContext2D();
+    }
+
     private void updateDataSet(DataSetModel dataSet) {
         this.dataSet = dataSet;
 
@@ -84,12 +89,12 @@ public class DataSetDisplay {
         graphics.setFontSmoothingType(FontSmoothingType.LCD);
 
         graphics.setTextAlign(TextAlignment.CENTER);
-        graphics.setTextBaseline(VPos.CENTER);
+        graphics.setTextBaseline(VPos.TOP);
 
         double centerX = barRectangle.getMinX() + barRectangle.getWidth() / 2;
-        double centerY = barRectangle.getMinY() + barRectangle.getHeight() / 2;
+        double topY = barRectangle.getMinY();
 
         String numberText = number.toString();
-        graphics.fillText(numberText, centerX, centerY);
+        graphics.fillText(numberText, centerX, topY);
     }
 }
