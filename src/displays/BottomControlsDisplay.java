@@ -29,7 +29,7 @@ public class BottomControlsDisplay {
 
     private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
 
-    public BottomControlsDisplay () {
+    public BottomControlsDisplay() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
         algorithmHashMap.put("InsertionSort", InsertionSortAlgorithm::new);
         algorithmHashMap.put("QuickSort", QuickSortAlgorithm::new);
@@ -64,8 +64,8 @@ public class BottomControlsDisplay {
     }
 
     @FXML
-    private void onNextStepButtonAction (ActionEvent actionEvent) {
-
+    private void onNextStepButtonAction(ActionEvent actionEvent) {
+        executeNextStep();
     }
 
     @FXML
@@ -79,5 +79,14 @@ public class BottomControlsDisplay {
         Algorithm algorithm = algorithmFactory.apply(dataSet);
 
         DataManager.setAlgorithm(algorithm);
+    }
+
+    private void executeNextStep() {
+        Algorithm algorithm = DataManager.getAlgorithm();
+        algorithm.nextStep();
+
+        Property<Integer> currentStepProperty = DataManager.getCurrentStepProperty();
+        int currentStep = currentStepProperty.getValue();
+        currentStepProperty.setValue(currentStep + 1);
     }
 }

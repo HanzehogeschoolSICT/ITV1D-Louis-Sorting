@@ -7,11 +7,16 @@ import models.DataSetModel;
 
 public class DataManager {
     private static final Property<DataSetModel> dataSetProperty = new SimpleObjectProperty<>();
+    private static final Property<Integer> currentStepProperty = new SimpleObjectProperty<>();
 
     private static Algorithm algorithm;
 
     public static Property<DataSetModel> getDataSetProperty() {
         return dataSetProperty;
+    }
+
+    public static Property<Integer> getCurrentStepProperty() {
+        return currentStepProperty;
     }
 
     public static void setAlgorithm(Algorithm algorithm) {

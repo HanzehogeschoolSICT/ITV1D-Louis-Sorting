@@ -28,6 +28,9 @@ public class DataSetDisplay {
 
         Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
         dataSetProperty.addListener(((observable, oldValue, newValue) -> updateDataSet(newValue)));
+
+        Property<Integer> currentStepProperty = DataManager.getCurrentStepProperty();
+        currentStepProperty.addListener(((observable, oldValue, newValue) -> drawDataSet()));
     }
 
     private void updateDataSet(DataSetModel dataSet) {
