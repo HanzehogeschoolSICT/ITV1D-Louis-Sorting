@@ -27,8 +27,15 @@ public class QuickSortAlgorithm extends Algorithm {
     public boolean nextStep() {
         synchronized (workerLock) {
             workerLock.notify();
-            return !dataSet.getIsSorted();
+
+            try {
+                workerLock.wait();
+            } catch (InterruptedException exception) {
+                System.out.println("QuickSort has been destroyed.");
+            }
         }
+
+        return !dataSet.getIsSorted();
     }
 
     private class AlgorithmWorker implements Runnable {
@@ -44,8 +51,8 @@ public class QuickSortAlgorithm extends Algorithm {
 
                 synchronized (workerLock) {
                     workerLock.wait();
-
                     dataSet.setIsSorted();
+                    workerLock.notify();
                 }
             } catch (InterruptedException e) {
                 System.out.println("QuickSort has been destroyed.");
@@ -89,6 +96,8 @@ public class QuickSortAlgorithm extends Algorithm {
                         i++;
                         dataSet.swap(i, j);
                     }
+
+                    workerLock.notify();
                 }
             }
 
@@ -97,6 +106,8 @@ public class QuickSortAlgorithm extends Algorithm {
                 dataSet.markComparedNumbers(i + 1, high);
 
                 dataSet.swap(i + 1, high);
+
+                workerLock.notify();
             }
 
             return i + 1;

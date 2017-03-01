@@ -27,8 +27,15 @@ public class InsertionSortAlgorithm extends Algorithm {
     public boolean nextStep() {
         synchronized (workerLock) {
             workerLock.notify();
-            return !dataSet.getIsSorted();
+
+            try {
+                workerLock.wait();
+            } catch (InterruptedException e) {
+                System.out.println("InsertionSort has been destroyed.");
+            }
         }
+
+        return !dataSet.getIsSorted();
     }
 
     private class AlgorithmWorker implements Runnable {
@@ -44,8 +51,8 @@ public class InsertionSortAlgorithm extends Algorithm {
 
                 synchronized (workerLock) {
                     workerLock.wait();
-
                     dataSet.setIsSorted();
+                    workerLock.notify();
                 }
             } catch (InterruptedException e) {
                 System.out.println("InsertionSort has been destroyed.");
@@ -70,8 +77,11 @@ public class InsertionSortAlgorithm extends Algorithm {
                             dataSet.swap(j, j - 1);
                             j--;
                         } else {
+                            workerLock.notify();
                             break;
                         }
+
+                        workerLock.notify();
                     }
                 }
             }

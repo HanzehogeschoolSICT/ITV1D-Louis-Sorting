@@ -27,8 +27,15 @@ public class BubbleSortAlgorithm extends Algorithm {
     public boolean nextStep() {
         synchronized (workerLock) {
             workerLock.notify();
-            return !dataSet.getIsSorted();
+
+            try {
+                workerLock.wait();
+            } catch (InterruptedException exception) {
+                System.out.println("BubbleSort has been destroyed.");
+            }
         }
+
+        return !dataSet.getIsSorted();
     }
 
     private class AlgorithmWorker implements Runnable {
@@ -44,8 +51,8 @@ public class BubbleSortAlgorithm extends Algorithm {
 
                 synchronized (workerLock) {
                     workerLock.wait();
-
                     dataSet.setIsSorted();
+                    workerLock.notify();
                 }
             } catch (InterruptedException exception) {
                 System.out.println("BubbleSort has been destroyed.");
@@ -73,6 +80,8 @@ public class BubbleSortAlgorithm extends Algorithm {
                             dataSet.swap(i - 1, i);
                             swapped = true;
                         }
+
+                        workerLock.notify();
                     }
                 }
             } while (swapped);
