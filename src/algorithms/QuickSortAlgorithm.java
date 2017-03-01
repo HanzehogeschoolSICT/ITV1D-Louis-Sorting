@@ -25,6 +25,9 @@ public class QuickSortAlgorithm extends Algorithm {
      */
     @Override
     public boolean nextStep() {
+        if (dataSet.getIsSorted())
+            return false;
+
         synchronized (workerLock) {
             workerLock.notify();
 
@@ -35,7 +38,7 @@ public class QuickSortAlgorithm extends Algorithm {
             }
         }
 
-        return !dataSet.getIsSorted();
+        return true;
     }
 
     private class AlgorithmWorker implements Runnable {
