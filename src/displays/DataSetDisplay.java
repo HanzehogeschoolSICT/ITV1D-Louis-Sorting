@@ -1,6 +1,8 @@
 package displays;
 
+import data.DataManager;
 import data.Settings;
+import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
@@ -23,6 +25,9 @@ public class DataSetDisplay {
     @FXML
     public void initialize() {
         graphics = dataSetCanvas.getGraphicsContext2D();
+
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        dataSetProperty.addListener(((observable, oldValue, newValue) -> updateDataSet(newValue)));
     }
 
     private void updateDataSet(DataSetModel dataSet) {

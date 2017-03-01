@@ -1,6 +1,8 @@
 package displays;
 
+import data.DataManager;
 import data.Settings;
+import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
@@ -24,5 +26,8 @@ public class TopControlsDisplay {
     private void onNewDataSetButtonAction(ActionEvent actionEvent) {
         int items = dataSetSpinner.getValue();
         DataSetModel dataSet = new DataSetModel(items);
+
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        dataSetProperty.setValue(dataSet);
     }
 }
