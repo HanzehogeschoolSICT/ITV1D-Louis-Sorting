@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Timer;
 
 public class Bootstrap extends Application {
     /**
@@ -55,6 +56,10 @@ public class Bootstrap extends Application {
      */
     @Override
     public void stop() {
+        // Stop the timer if it's still running.
+        Timer timer = DataManager.getTimer();
+        timer.cancel();
+
         // Kill the current algorithm to allow the program to exit.
         DataManager.setAlgorithm(null);
     }

@@ -5,9 +5,13 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import models.DataSetModel;
 
+import java.util.Timer;
+
 public class DataManager {
     private static final Property<DataSetModel> dataSetProperty = new SimpleObjectProperty<>();
     private static final Property<Integer> currentStepProperty = new SimpleObjectProperty<>();
+
+    private static final Timer timer = new Timer();
 
     private static Algorithm algorithm;
 
@@ -27,6 +31,15 @@ public class DataManager {
      */
     public static Property<Integer> getCurrentStepProperty() {
         return currentStepProperty;
+    }
+
+    /**
+     * Get the timer.
+     *
+     * @return Timer.
+     */
+    public static Timer getTimer() {
+        return timer;
     }
 
     /**

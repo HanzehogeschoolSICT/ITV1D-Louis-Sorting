@@ -22,7 +22,6 @@ import java.util.function.Function;
 
 public class BottomControlsDisplay {
     private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
-    private final Timer autoNextStepTimer = new Timer();
 
     @FXML
     private ComboBox<String> algorithmsComboBox;
@@ -134,7 +133,8 @@ public class BottomControlsDisplay {
             }
         };
 
-        autoNextStepTimer.schedule(autoNextStepTimerTask, 0, interval);
+        Timer timer = DataManager.getTimer();
+        timer.schedule(autoNextStepTimerTask, 0, interval);
     }
 
     /**
