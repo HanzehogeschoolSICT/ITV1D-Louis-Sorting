@@ -106,7 +106,9 @@ public class BottomControlsDisplay {
 
     private void executeNextStep() {
         Algorithm algorithm = DataManager.getAlgorithm();
-        algorithm.nextStep();
+
+        if (algorithm == null || !algorithm.nextStep())
+            return;
 
         Property<Integer> currentStepProperty = DataManager.getCurrentStepProperty();
         int currentStep = currentStepProperty.getValue();
