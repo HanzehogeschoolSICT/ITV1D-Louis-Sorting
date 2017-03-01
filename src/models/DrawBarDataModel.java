@@ -1,8 +1,8 @@
 package models;
 
 public class DrawBarDataModel {
-    private final int heightPerNumber;
-    private final int widthPerBar;
+    private final double heightPerNumber;
+    private final double widthPerBar;
     private int currentX;
 
     /**
@@ -11,7 +11,7 @@ public class DrawBarDataModel {
      * @param heightPerNumber Height per number of a bar.
      * @param widthPerBar Width per bar.
      */
-    public DrawBarDataModel(int heightPerNumber, int widthPerBar) {
+    public DrawBarDataModel(double heightPerNumber, double widthPerBar) {
         this.heightPerNumber = heightPerNumber;
         this.widthPerBar = widthPerBar;
     }
@@ -37,7 +37,7 @@ public class DrawBarDataModel {
      *
      * @return Height of the bar for the specified number.
      */
-    public int getHeightForBar(int number) {
+    public double getHeightForBar(int number) {
         return heightPerNumber * number;
     }
 
@@ -46,7 +46,7 @@ public class DrawBarDataModel {
      *
      * @return Width per bar.
      */
-    public int getWidthPerBar() {
+    public double getWidthPerBar() {
         return widthPerBar;
     }
 }

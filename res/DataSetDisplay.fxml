@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.Pane?>
+<Pane xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/8.0.112"
+      fx:controller="displays.DataSetDisplay"
+      prefHeight="300.0" prefWidth="600.0">
+    <Canvas height="300.0" width="600.0" fx:id="dataSetCanvas"/>
+</Pane>

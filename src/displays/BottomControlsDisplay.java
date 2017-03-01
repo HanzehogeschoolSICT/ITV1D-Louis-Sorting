@@ -4,129 +4,64 @@ import algorithms.Algorithm;
 import algorithms.BubbleSortAlgorithm;
 import algorithms.InsertionSortAlgorithm;
 import algorithms.QuickSortAlgorithm;
-import controllers.DataSetController;
 import data.Settings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionModel;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import models.DataSetModel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.function.Function;
 
-class BottomControlsDisplay extends JPanel {
-    private final DataSetController dataSetController;
+public class BottomControlsDisplay {
+    @FXML
+    private ComboBox<String> algorithmsComboBox;
+    @FXML
+    private Spinner<Integer> autoNextStepSpinner;
+
     private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
-    private Timer autoNextStepTimer;
-    private JButton autoNextStepButton;
-    private JSpinner autoNextStepSpinner;
 
-    /**
-     * Construct the bottom controls display.
-     *
-     * @param dataSetController Data set controller to use.
-     */
-    BottomControlsDisplay(DataSetController dataSetController) {
-        this.dataSetController = dataSetController;
-        setLayout(new FlowLayout(FlowLayout.CENTER, Settings.COMPONENT_SPACING, Settings.COMPONENT_SPACING));
-
-        initializeAlgorithms();
-        initializeNextStep();
-        initializeAutoNextStep();
-    }
-
-    /**
-     * Initialize the algorithm selector.
-     */
-    private void initializeAlgorithms() {
+    public BottomControlsDisplay () {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
         algorithmHashMap.put("InsertionSort", InsertionSortAlgorithm::new);
         algorithmHashMap.put("QuickSort", QuickSortAlgorithm::new);
+    }
 
+    @FXML
+    public void initialize() {
         Set<String> algorithmNames = algorithmHashMap.keySet();
-        String[] algorithmNamesArray = algorithmNames.toArray(new String[algorithmNames.size()]);
-        JComboBox algorithmComboBox = new JComboBox<>(algorithmNamesArray);
-        algorithmComboBox.addActionListener(this::algorithmSelected);
+        ObservableList<String> algorithmNameList = FXCollections.observableArrayList(algorithmNames);
+        algorithmsComboBox.setItems(algorithmNameList);
 
-        // Trigger algorithmSelected to make sure an algorithm exists.
-        algorithmComboBox.setSelectedIndex(0);
+        // Make sure an algorithm is selected.
+        SelectionModel<String> selectionModel = algorithmsComboBox.getSelectionModel();
+        selectionModel.selectFirst();
 
-        add(algorithmComboBox);
+        SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(Settings.AUTO_NEXT_MINIMUM_MS,
+                        Settings.AUTO_NEXT_MAXIMUM_MS, Settings.AUTO_NEXT_MS, Settings.AUTO_NEXT_STEP_SIZE);
+
+        autoNextStepSpinner.setValueFactory(spinnerValueFactory);
     }
 
-    /**
-     * Handle an algorithm change.
-     *
-     * @param actionEvent Action event for the change.
-     */
-    private void algorithmSelected(ActionEvent actionEvent) {
-        JComboBox algorithmComboBox = (JComboBox) actionEvent.getSource();
-        String algorithmName = (String) algorithmComboBox.getSelectedItem();
-
-        try {
-            Function<DataSetModel, Algorithm> algorithmFactory = algorithmHashMap.get(algorithmName);
-            dataSetController.changeAlgorithm(algorithmFactory);
-        } catch (Exception exception) {
-            System.out.println("Failed to create algorithm.");
-        }
+    @FXML
+    private void onAlgorithmsComboBoxAction(ActionEvent actionEvent) {
+        String algorithmName = algorithmsComboBox.getValue();
     }
 
-    /**
-     * Initialize the next step button.
-     */
-    private void initializeNextStep() {
-        JButton nextStepButton = new JButton("Next Step");
-        nextStepButton.addActionListener(this::nextStep);
-        add(nextStepButton);
+    @FXML
+    private void onNextStepButtonAction (ActionEvent actionEvent) {
+
     }
 
-    /**
-     * Handle a next step request.
-     *
-     * @param actionEvent Action event for the change.
-     */
-    private void nextStep(ActionEvent actionEvent) {
-        dataSetController.nextAlgorithmStep();
-    }
+    @FXML
+    private void onAutoNextStepButtonAction(ActionEvent actionEvent) {
 
-    /**
-     * Initialize the auto next step controls.
-     */
-    private void initializeAutoNextStep() {
-        autoNextStepButton = new JButton("Start Auto Next Step");
-        autoNextStepButton.addActionListener(this::autoNextStepToggle);
-        add(autoNextStepButton);
-
-        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(Settings.AUTO_NEXT_MS,
-                Settings.AUTO_NEXT_MINIMUM_MS, Settings.AUTO_NEXT_MAXIMUM_MS, Settings.AUTO_NEXT_STEP_SIZE);
-        autoNextStepSpinner = new JSpinner(spinnerNumberModel);
-        add(autoNextStepSpinner);
-
-        JLabel autoNextStepLabel = new JLabel("ms");
-        add(autoNextStepLabel);
-
-        autoNextStepTimer = new Timer(0, this::nextStep);
-    }
-
-    /**
-     * Handle the auto next step toggle request.
-     *
-     * @param actionEvent Action event for the request.
-     */
-    private void autoNextStepToggle(ActionEvent actionEvent) {
-        if (autoNextStepTimer.isRunning()) {
-            autoNextStepTimer.stop();
-
-            autoNextStepSpinner.setEnabled(true);
-            autoNextStepButton.setText("Start Auto Next Step");
-        } else {
-            int autoNextStepMs = (int) autoNextStepSpinner.getValue();
-            autoNextStepTimer.setDelay(autoNextStepMs);
-            autoNextStepTimer.start();
-
-            autoNextStepSpinner.setEnabled(false);
-            autoNextStepButton.setText("Stop Auto Next Step");
-        }
     }
 }

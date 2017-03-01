@@ -1,101 +1,67 @@
 package displays;
 
-import controllers.DataSetController;
 import data.Settings;
+import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
+import javafx.geometry.VPos;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.FontSmoothingType;
+import javafx.scene.text.TextAlignment;
 import models.DataSetModel;
 import models.DrawBarDataModel;
 
-import javax.swing.*;
-import java.awt.*;
+public class DataSetDisplay {
+    @FXML
+    private Canvas dataSetCanvas;
 
-class DataSetDisplay extends JPanel {
-    private final DataSetController dataSetController;
+    private DataSetModel dataSet;
 
-    /**
-     * Construct the data set display.
-     *
-     * @param dataSetController Data set controller to use.
-     */
-    DataSetDisplay(DataSetController dataSetController) {
-        this.dataSetController = dataSetController;
+    private GraphicsContext graphics;
+
+    private void updateDataSet(DataSetModel dataSet) {
+        this.dataSet = dataSet;
+
+        drawDataSet();
     }
 
-    /**
-     * Get the preferred size of the data set display.
-     *
-     * @return Preferred size of the data set display.
-     */
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(Settings.DATA_SET_DISPLAY_WIDTH, Settings.DATA_SET_DISPLAY_HEIGHT);
-    }
+    private void drawDataSet() {
+        clear();
 
-    /**
-     * Display the current data set.
-     */
-    void displayDataSet() {
-        repaint();
-    }
+        double width = dataSetCanvas.getWidth();
+        double height = dataSetCanvas.getHeight();
 
-    /**
-     * Draw the current data set.
-     *
-     * @param graphics Graphics to draw the current data set on.
-     */
-    @Override
-    public void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
-        DataSetModel dataSet = dataSetController.getDataSet();
-
-        int heightPerNumber = getHeight() / dataSet.getHighestNumber();
-        int widthPerBar = getWidth() / dataSet.getHighestNumber();
-
-        graphics.setColor(Settings.BACKGROUND_COLOR);
-        graphics.fillRect(0, 0, getWidth(), getHeight());
+        double heightPerNumber = height / dataSet.getHighestNumber();
+        double widthPerBar = width / dataSet.getHighestNumber();
 
         DrawBarDataModel drawBarData = new DrawBarDataModel(heightPerNumber, widthPerBar);
         for (Integer number : dataSet)
-            drawBar(graphics, number, drawBarData, getBarColor(dataSet, number));
+            drawBar(number, drawBarData, getBarColor(dataSet, number));
     }
 
-    /**
-     * Draw a single bar on using the specified graphics.
-     *
-     * @param graphics Graphics to draw the bar on.
-     * @param number Number that should be represented by the bar.
-     * @param drawBarData General data to compute the size of the bar.
-     * @param color Color of the bar.
-     */
-    private void drawBar(Graphics graphics, Integer number, DrawBarDataModel drawBarData, Color color) {
-        int barHeight = drawBarData.getHeightForBar(number);
-        int x = drawBarData.getCurrentX();
-        int y = getHeight() - barHeight;
+    private void clear() {
+        double width = dataSetCanvas.getWidth();
+        double height = dataSetCanvas.getHeight();
 
-        Rectangle barRectangle = new Rectangle(x, y, drawBarData.getWidthPerBar(), barHeight);
+        graphics.setFill(Settings.BACKGROUND_COLOR);
+        graphics.fillRect(0, 0, width, height);
+    }
 
-        graphics.setColor(color);
-        graphics.fillRect(barRectangle.x, barRectangle.y, barRectangle.width, barRectangle.height);
+    private void drawBar(int number, DrawBarDataModel drawBarData, Color color) {
+        double barHeight = drawBarData.getHeightForBar(number);
+        double x = drawBarData.getCurrentX();
+        double y = dataSetCanvas.getHeight() - barHeight;
 
-        drawNumberInBar(graphics, number, barRectangle);
+        Rectangle2D barRectangle = new Rectangle2D(x, y, drawBarData.getWidthPerBar(), barHeight);
+
+        graphics.setFill(color);
+        graphics.fillRect(barRectangle.getMinX(), barRectangle.getMinY(),
+                barRectangle.getWidth(), barRectangle.getHeight());
+
+        graphics.setFill(Color.WHITE);
+        drawNumberInBar(number, barRectangle);
         drawBarData.increaseCurrentX();
-    }
-
-    /**
-     * Draw a number in a single bar using the specified graphics.
-     *
-     * @param graphics Graphics to draw the number on.
-     * @param number Number that should be drawn in the bar.
-     * @param barRectangle Area of the bar in the specified graphics.
-     */
-    private void drawNumberInBar(Graphics graphics, Integer number, Rectangle barRectangle) {
-        String numberText = number.toString();
-        FontMetrics fontMetrics = graphics.getFontMetrics();
-
-        int x = barRectangle.x + ((barRectangle.width - fontMetrics.stringWidth(numberText)) / 2);
-        int y = barRectangle.y + fontMetrics.getHeight();
-
-        graphics.setColor(Color.WHITE);
-        graphics.drawString(numberText, x, y);
     }
 
     /**
@@ -112,5 +78,18 @@ class DataSetDisplay extends JPanel {
             return Settings.BAR_COMPARED_COLOR;
 
         return Settings.BAR_COLOR;
+    }
+
+    private void drawNumberInBar(Integer number, Rectangle2D barRectangle) {
+        graphics.setFontSmoothingType(FontSmoothingType.LCD);
+
+        graphics.setTextAlign(TextAlignment.CENTER);
+        graphics.setTextBaseline(VPos.CENTER);
+
+        double centerX = barRectangle.getMinX() + barRectangle.getWidth() / 2;
+        double centerY = barRectangle.getMinY() + barRectangle.getHeight() / 2;
+
+        String numberText = number.toString();
+        graphics.fillText(numberText, centerX, centerY);
     }
 }
