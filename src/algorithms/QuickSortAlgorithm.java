@@ -25,10 +25,20 @@ public class QuickSortAlgorithm extends Algorithm {
      */
     @Override
     public boolean nextStep() {
+        if (dataSet.getIsSorted())
+            return false;
+
         synchronized (workerLock) {
             workerLock.notify();
-            return !dataSet.getIsSorted();
+
+            try {
+                workerLock.wait();
+            } catch (InterruptedException exception) {
+                System.out.println("QuickSort has been destroyed.");
+            }
         }
+
+        return true;
     }
 
     private class AlgorithmWorker implements Runnable {
@@ -44,8 +54,8 @@ public class QuickSortAlgorithm extends Algorithm {
 
                 synchronized (workerLock) {
                     workerLock.wait();
-
                     dataSet.setIsSorted();
+                    workerLock.notify();
                 }
             } catch (InterruptedException e) {
                 System.out.println("QuickSort has been destroyed.");
@@ -56,8 +66,8 @@ public class QuickSortAlgorithm extends Algorithm {
          * Quick sort the given numbers.
          *
          * @param numbers Numbers to quick sort.
-         * @param low Lowest index to sort.
-         * @param high Highest index to sort.
+         * @param low     Lowest index to sort.
+         * @param high    Highest index to sort.
          * @throws InterruptedException When the algorithm is being destroyed.
          */
         private void quickSort(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
@@ -72,8 +82,8 @@ public class QuickSortAlgorithm extends Algorithm {
          * Partition the given numbers.
          *
          * @param numbers Numbers to partition.
-         * @param low Lowest index to sort.
-         * @param high Highest index to sort.
+         * @param low     Lowest index to sort.
+         * @param high    Highest index to sort.
          * @return Index of the pivot.
          * @throws InterruptedException When the algorithm is being destroyed.
          */
@@ -89,6 +99,8 @@ public class QuickSortAlgorithm extends Algorithm {
                         i++;
                         dataSet.swap(i, j);
                     }
+
+                    workerLock.notify();
                 }
             }
 
@@ -97,6 +109,8 @@ public class QuickSortAlgorithm extends Algorithm {
                 dataSet.markComparedNumbers(i + 1, high);
 
                 dataSet.swap(i + 1, high);
+
+                workerLock.notify();
             }
 
             return i + 1;

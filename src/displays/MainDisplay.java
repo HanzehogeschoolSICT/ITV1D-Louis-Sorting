@@ -1,59 +1,31 @@
 package displays;
 
-import controllers.DataSetController;
+import data.DataManager;
+import data.Settings;
+import javafx.beans.property.Property;
+import javafx.fxml.FXML;
+import models.DataSetModel;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class MainDisplay extends JFrame {
+public class MainDisplay {
     /**
-     * Construct the main display.
-     *
-     * @param dataSetController Data set controller to use.
+     * Initialize the data for the main display.
      */
-    public MainDisplay(DataSetController dataSetController) {
-        setTitle("Sorting");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
-
-        Container container = getContentPane();
-        setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-
-        initializeViews(dataSetController);
-        setSystemLookAndFeel();
-
-        pack();
-        // Show frame in the center of the screen.
-        setLocationRelativeTo(null);
-        setVisible(true);
+    public MainDisplay() {
+        // Set the initial value for the current step to prevent null pointers.
+        // Set it in the constructor to make sure it exists before any other controller accesses it.
+        Property<Integer> currentStepProperty = DataManager.getCurrentStepProperty();
+        currentStepProperty.setValue(0);
     }
 
     /**
-     * Initialize the views.
-     *
-     * @param dataSetController Data set controller to use.
+     * Initialize the main display.
      */
-    private void initializeViews(DataSetController dataSetController) {
-        TopControlsDisplay topControlsDisplay = new TopControlsDisplay(dataSetController);
-        add(topControlsDisplay);
+    @FXML
+    public void initialize() {
+        DataSetModel initialDataSet = new DataSetModel(Settings.DATA_SET_SIZE);
 
-        DataSetDisplay dataSetDisplay = new DataSetDisplay(dataSetController);
-        dataSetController.setUpdateDataSetDisplay(dataSetDisplay::displayDataSet);
-        add(dataSetDisplay);
-
-        BottomControlsDisplay bottomControlsDisplay = new BottomControlsDisplay(dataSetController);
-        add(bottomControlsDisplay);
-    }
-
-    /**
-     * Set the system look and feel (instead of default Java look and feel).
-     */
-    private void setSystemLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (Exception exception) {
-            System.out.println("Failed to apply system look and feel.");
-        }
+        // Set the initial data set to display.
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        dataSetProperty.setValue(initialDataSet);
     }
 }

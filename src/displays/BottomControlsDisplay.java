@@ -4,129 +4,172 @@ import algorithms.Algorithm;
 import algorithms.BubbleSortAlgorithm;
 import algorithms.InsertionSortAlgorithm;
 import algorithms.QuickSortAlgorithm;
-import controllers.DataSetController;
+import data.DataManager;
 import data.Settings;
+import javafx.beans.property.Property;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import models.DataSetModel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Function;
 
-class BottomControlsDisplay extends JPanel {
-    private final DataSetController dataSetController;
+public class BottomControlsDisplay {
     private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
-    private Timer autoNextStepTimer;
-    private JButton autoNextStepButton;
-    private JSpinner autoNextStepSpinner;
+
+    @FXML
+    private ComboBox<String> algorithmsComboBox;
+
+    @FXML
+    private Button nextStepButton;
+
+    @FXML
+    private Spinner<Integer> autoNextStepSpinner;
+    @FXML
+    private Button autoNextStepButton;
+
+    private TimerTask autoNextStepTimerTask = null;
 
     /**
-     * Construct the bottom controls display.
-     *
-     * @param dataSetController Data set controller to use.
+     * Initialize the data for the bottom controls display.
      */
-    BottomControlsDisplay(DataSetController dataSetController) {
-        this.dataSetController = dataSetController;
-        setLayout(new FlowLayout(FlowLayout.CENTER, Settings.COMPONENT_SPACING, Settings.COMPONENT_SPACING));
-
-        initializeAlgorithms();
-        initializeNextStep();
-        initializeAutoNextStep();
-    }
-
-    /**
-     * Initialize the algorithm selector.
-     */
-    private void initializeAlgorithms() {
+    public BottomControlsDisplay() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
         algorithmHashMap.put("InsertionSort", InsertionSortAlgorithm::new);
         algorithmHashMap.put("QuickSort", QuickSortAlgorithm::new);
 
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        dataSetProperty.addListener(((observable, oldValue, newValue) -> handleNewDataSet(newValue)));
+    }
+
+    /**
+     * Initialize the bottom controls display.
+     */
+    @FXML
+    public void initialize() {
         Set<String> algorithmNames = algorithmHashMap.keySet();
-        String[] algorithmNamesArray = algorithmNames.toArray(new String[algorithmNames.size()]);
-        JComboBox algorithmComboBox = new JComboBox<>(algorithmNamesArray);
-        algorithmComboBox.addActionListener(this::algorithmSelected);
+        ObservableList<String> algorithmNameList = FXCollections.observableArrayList(algorithmNames);
+        algorithmsComboBox.setItems(algorithmNameList);
 
-        // Trigger algorithmSelected to make sure an algorithm exists.
-        algorithmComboBox.setSelectedIndex(0);
+        // Make sure an algorithm is selected.
+        SelectionModel<String> selectionModel = algorithmsComboBox.getSelectionModel();
+        selectionModel.selectFirst();
 
-        add(algorithmComboBox);
+        SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(Settings.AUTO_NEXT_MINIMUM_MS,
+                        Settings.AUTO_NEXT_MAXIMUM_MS, Settings.AUTO_NEXT_MS, Settings.AUTO_NEXT_STEP_SIZE);
+
+        autoNextStepSpinner.setValueFactory(spinnerValueFactory);
     }
 
     /**
-     * Handle an algorithm change.
+     * Handle an algorithms combo box action.
      *
-     * @param actionEvent Action event for the change.
+     * @param actionEvent Event for the action.
      */
-    private void algorithmSelected(ActionEvent actionEvent) {
-        JComboBox algorithmComboBox = (JComboBox) actionEvent.getSource();
-        String algorithmName = (String) algorithmComboBox.getSelectedItem();
+    @FXML
+    private void onAlgorithmsComboBoxAction(ActionEvent actionEvent) {
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        DataSetModel dataSet = dataSetProperty.getValue();
 
-        try {
-            Function<DataSetModel, Algorithm> algorithmFactory = algorithmHashMap.get(algorithmName);
-            dataSetController.changeAlgorithm(algorithmFactory);
-        } catch (Exception exception) {
-            System.out.println("Failed to create algorithm.");
-        }
+        applyAlgorithm(dataSet);
     }
 
     /**
-     * Initialize the next step button.
-     */
-    private void initializeNextStep() {
-        JButton nextStepButton = new JButton("Next Step");
-        nextStepButton.addActionListener(this::nextStep);
-        add(nextStepButton);
-    }
-
-    /**
-     * Handle a next step request.
+     * Handle a next step button action.
      *
-     * @param actionEvent Action event for the change.
+     * @param actionEvent Event for the action.
      */
-    private void nextStep(ActionEvent actionEvent) {
-        dataSetController.nextAlgorithmStep();
+    @FXML
+    private void onNextStepButtonAction(ActionEvent actionEvent) {
+        executeNextStep();
     }
 
     /**
-     * Initialize the auto next step controls.
-     */
-    private void initializeAutoNextStep() {
-        autoNextStepButton = new JButton("Start Auto Next Step");
-        autoNextStepButton.addActionListener(this::autoNextStepToggle);
-        add(autoNextStepButton);
-
-        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(Settings.AUTO_NEXT_MS,
-                Settings.AUTO_NEXT_MINIMUM_MS, Settings.AUTO_NEXT_MAXIMUM_MS, Settings.AUTO_NEXT_STEP_SIZE);
-        autoNextStepSpinner = new JSpinner(spinnerNumberModel);
-        add(autoNextStepSpinner);
-
-        JLabel autoNextStepLabel = new JLabel("ms");
-        add(autoNextStepLabel);
-
-        autoNextStepTimer = new Timer(0, this::nextStep);
-    }
-
-    /**
-     * Handle the auto next step toggle request.
+     * Handle an auto next step button action.
      *
-     * @param actionEvent Action event for the request.
+     * @param actionEvent Event for the action.
      */
-    private void autoNextStepToggle(ActionEvent actionEvent) {
-        if (autoNextStepTimer.isRunning()) {
-            autoNextStepTimer.stop();
-
-            autoNextStepSpinner.setEnabled(true);
-            autoNextStepButton.setText("Start Auto Next Step");
-        } else {
-            int autoNextStepMs = (int) autoNextStepSpinner.getValue();
-            autoNextStepTimer.setDelay(autoNextStepMs);
-            autoNextStepTimer.start();
-
-            autoNextStepSpinner.setEnabled(false);
+    @FXML
+    private void onAutoNextStepButtonAction(ActionEvent actionEvent) {
+        if (autoNextStepTimerTask == null) {
+            autoNextStepSpinner.setDisable(true);
             autoNextStepButton.setText("Stop Auto Next Step");
+
+            int interval = autoNextStepSpinner.getValue();
+            autoExecuteNextStep(interval);
+        } else {
+            autoNextStepSpinner.setDisable(false);
+            autoNextStepButton.setText("Start Auto Next Step");
+
+            autoNextStepTimerTask.cancel();
+            autoNextStepTimerTask = null;
         }
+    }
+
+    /**
+     * Handle a newly created data set.
+     *
+     * @param dataSet Newly created data set.
+     */
+    private void handleNewDataSet(DataSetModel dataSet) {
+        nextStepButton.setDisable(false);
+        applyAlgorithm(dataSet);
+    }
+
+    /**
+     * Apply the currently selected algorithm to the given data set.
+     *
+     * @param dataSet Data set to use with the algorithm.
+     */
+    private void applyAlgorithm(DataSetModel dataSet) {
+        String algorithmName = algorithmsComboBox.getValue();
+        Function<DataSetModel, Algorithm> algorithmFactory = algorithmHashMap.get(algorithmName);
+        Algorithm algorithm = algorithmFactory.apply(dataSet);
+
+        DataManager.setAlgorithm(algorithm);
+    }
+
+    /**
+     * Execute the next step of the algorithm at the given interval.
+     *
+     * @param interval Interval between steps.
+     */
+    private void autoExecuteNextStep(int interval) {
+        autoNextStepTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                executeNextStep();
+            }
+        };
+
+        Timer timer = DataManager.getTimer();
+        timer.schedule(autoNextStepTimerTask, 0, interval);
+    }
+
+    /**
+     * Execute the next step of the algorithm.
+     */
+    private void executeNextStep() {
+        Algorithm algorithm = DataManager.getAlgorithm();
+
+        if (algorithm == null || !algorithm.nextStep())
+            return;
+
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        DataSetModel dataSet = dataSetProperty.getValue();
+
+        if (dataSet.getIsSorted())
+            nextStepButton.setDisable(true);
+
+        Property<Integer> currentStepProperty = DataManager.getCurrentStepProperty();
+        int currentStep = currentStepProperty.getValue();
+        currentStepProperty.setValue(currentStep + 1);
     }
 }
