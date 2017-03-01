@@ -22,15 +22,20 @@ import java.util.function.Function;
 
 public class BottomControlsDisplay {
     private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
+    private final Timer autoNextStepTimer = new Timer();
+
     @FXML
     private ComboBox<String> algorithmsComboBox;
     @FXML
     private Spinner<Integer> autoNextStepSpinner;
     @FXML
+
     private Button autoNextStepButton;
-    private Timer autoNextStepTimer = new Timer();
     private TimerTask autoNextStepTimerTask = null;
 
+    /**
+     * Initialize the data for the bottom controls display.
+     */
     public BottomControlsDisplay() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
         algorithmHashMap.put("InsertionSort", InsertionSortAlgorithm::new);
@@ -40,6 +45,9 @@ public class BottomControlsDisplay {
         dataSetProperty.addListener(((observable, oldValue, newValue) -> applyAlgorithm(newValue)));
     }
 
+    /**
+     * Initialize the bottom controls display.
+     */
     @FXML
     public void initialize() {
         Set<String> algorithmNames = algorithmHashMap.keySet();
@@ -57,6 +65,11 @@ public class BottomControlsDisplay {
         autoNextStepSpinner.setValueFactory(spinnerValueFactory);
     }
 
+    /**
+     * Handle an algorithms combo box action.
+     *
+     * @param actionEvent Event for the action.
+     */
     @FXML
     private void onAlgorithmsComboBoxAction(ActionEvent actionEvent) {
         Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
@@ -65,11 +78,21 @@ public class BottomControlsDisplay {
         applyAlgorithm(dataSet);
     }
 
+    /**
+     * Handle a next step button action.
+     *
+     * @param actionEvent Event for the action.
+     */
     @FXML
     private void onNextStepButtonAction(ActionEvent actionEvent) {
         executeNextStep();
     }
 
+    /**
+     * Handle an auto next step button action.
+     *
+     * @param actionEvent Event for the action.
+     */
     @FXML
     private void onAutoNextStepButtonAction(ActionEvent actionEvent) {
         if (autoNextStepTimerTask == null) {
@@ -85,6 +108,11 @@ public class BottomControlsDisplay {
         }
     }
 
+    /**
+     * Apply the currently selected algorithm to the given data set.
+     *
+     * @param dataSet Data set to use with the algorithm.
+     */
     private void applyAlgorithm(DataSetModel dataSet) {
         String algorithmName = algorithmsComboBox.getValue();
         Function<DataSetModel, Algorithm> algorithmFactory = algorithmHashMap.get(algorithmName);
@@ -93,6 +121,11 @@ public class BottomControlsDisplay {
         DataManager.setAlgorithm(algorithm);
     }
 
+    /**
+     * Execute the next step of the algorithm at the given interval.
+     *
+     * @param interval Interval between steps.
+     */
     private void autoExecuteNextStep(int interval) {
         autoNextStepTimerTask = new TimerTask() {
             @Override
@@ -104,6 +137,9 @@ public class BottomControlsDisplay {
         autoNextStepTimer.schedule(autoNextStepTimerTask, 0, interval);
     }
 
+    /**
+     * Execute the next step of the algorithm.
+     */
     private void executeNextStep() {
         Algorithm algorithm = DataManager.getAlgorithm();
 

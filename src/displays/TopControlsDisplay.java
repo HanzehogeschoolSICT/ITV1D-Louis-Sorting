@@ -13,6 +13,9 @@ public class TopControlsDisplay {
     @FXML
     private Spinner<Integer> dataSetSpinner;
 
+    /**
+     * Initialize the top controls display.
+     */
     @FXML
     public void initialize() {
         SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory =
@@ -22,6 +25,11 @@ public class TopControlsDisplay {
         dataSetSpinner.setValueFactory(spinnerValueFactory);
     }
 
+    /**
+     * Handle a new data set button action.
+     *
+     * @param actionEvent Event for the action.
+     */
     @FXML
     private void onNewDataSetButtonAction(ActionEvent actionEvent) {
         int items = dataSetSpinner.getValue();

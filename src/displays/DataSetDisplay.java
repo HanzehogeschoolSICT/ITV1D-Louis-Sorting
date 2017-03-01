@@ -22,6 +22,9 @@ public class DataSetDisplay {
 
     private GraphicsContext graphics;
 
+    /**
+     * Initialize the data set display.
+     */
     @FXML
     public void initialize() {
         graphics = dataSetCanvas.getGraphicsContext2D();
@@ -33,12 +36,20 @@ public class DataSetDisplay {
         currentStepProperty.addListener(((observable, oldValue, newValue) -> drawDataSet()));
     }
 
+    /**
+     * Update the data set and display the updated data set.
+     *
+     * @param dataSet Data set to use.
+     */
     private void updateDataSet(DataSetModel dataSet) {
         this.dataSet = dataSet;
 
         drawDataSet();
     }
 
+    /**
+     * Draw the current data set on the canvas.
+     */
     private void drawDataSet() {
         clear();
 
@@ -53,6 +64,9 @@ public class DataSetDisplay {
             drawBar(number, drawBarData, getBarColor(dataSet, number));
     }
 
+    /**
+     * Clear the canvas.
+     */
     private void clear() {
         double width = dataSetCanvas.getWidth();
         double height = dataSetCanvas.getHeight();
@@ -61,6 +75,13 @@ public class DataSetDisplay {
         graphics.fillRect(0, 0, width, height);
     }
 
+    /**
+     * Draw a single bar on the canvas.
+     *
+     * @param number      Number of the data set to draw.
+     * @param drawBarData Data for determining the size and position of the bar.
+     * @param color       Color of the bar.
+     */
     private void drawBar(int number, DrawBarDataModel drawBarData, Color color) {
         double barHeight = drawBarData.getHeightForBar(number);
         double x = drawBarData.getCurrentX();
@@ -93,6 +114,12 @@ public class DataSetDisplay {
         return Settings.BAR_COLOR;
     }
 
+    /**
+     * Draw the given number within the given bar rectangle.
+     *
+     * @param number       Number to draw.
+     * @param barRectangle Bar rectangle to use.
+     */
     private void drawNumberInBar(Integer number, Rectangle2D barRectangle) {
         graphics.setFontSmoothingType(FontSmoothingType.LCD);
 

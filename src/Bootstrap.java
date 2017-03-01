@@ -18,11 +18,21 @@ public class Bootstrap extends Application {
         launch(args);
     }
 
+    /**
+     * Start the application.
+     *
+     * @param primaryStage Primary GUI container.
+     */
     @Override
     public void start(Stage primaryStage) {
         showGui(primaryStage);
     }
 
+    /**
+     * Show the GUI for the application.
+     *
+     * @param stage GUI container to use.
+     */
     private void showGui(Stage stage) {
         URL mainDisplayUrl = Bootstrap.class.getResource("/MainDisplay.fxml");
 
@@ -40,6 +50,9 @@ public class Bootstrap extends Application {
         }
     }
 
+    /**
+     * Handle application exit to destroy resources.
+     */
     @Override
     public void stop() {
         // Kill the current algorithm to allow the program to exit.
