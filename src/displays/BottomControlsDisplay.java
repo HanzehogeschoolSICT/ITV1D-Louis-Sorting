@@ -25,11 +25,15 @@ public class BottomControlsDisplay {
 
     @FXML
     private ComboBox<String> algorithmsComboBox;
+
+    @FXML
+    private Button nextStepButton;
+
     @FXML
     private Spinner<Integer> autoNextStepSpinner;
     @FXML
-
     private Button autoNextStepButton;
+
     private TimerTask autoNextStepTimerTask = null;
 
     /**
@@ -41,7 +45,7 @@ public class BottomControlsDisplay {
         algorithmHashMap.put("QuickSort", QuickSortAlgorithm::new);
 
         Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
-        dataSetProperty.addListener(((observable, oldValue, newValue) -> applyAlgorithm(newValue)));
+        dataSetProperty.addListener(((observable, oldValue, newValue) -> handleNewDataSet(newValue)));
     }
 
     /**
@@ -95,16 +99,28 @@ public class BottomControlsDisplay {
     @FXML
     private void onAutoNextStepButtonAction(ActionEvent actionEvent) {
         if (autoNextStepTimerTask == null) {
+            autoNextStepSpinner.setDisable(true);
             autoNextStepButton.setText("Stop Auto Next Step");
 
             int interval = autoNextStepSpinner.getValue();
             autoExecuteNextStep(interval);
         } else {
+            autoNextStepSpinner.setDisable(false);
             autoNextStepButton.setText("Start Auto Next Step");
 
             autoNextStepTimerTask.cancel();
             autoNextStepTimerTask = null;
         }
+    }
+
+    /**
+     * Handle a newly created data set.
+     *
+     * @param dataSet Newly created data set.
+     */
+    private void handleNewDataSet(DataSetModel dataSet) {
+        nextStepButton.setDisable(false);
+        applyAlgorithm(dataSet);
     }
 
     /**
@@ -145,6 +161,12 @@ public class BottomControlsDisplay {
 
         if (algorithm == null || !algorithm.nextStep())
             return;
+
+        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
+        DataSetModel dataSet = dataSetProperty.getValue();
+
+        if (dataSet.getIsSorted())
+            nextStepButton.setDisable(true);
 
         Property<Integer> currentStepProperty = DataManager.getCurrentStepProperty();
         int currentStep = currentStepProperty.getValue();

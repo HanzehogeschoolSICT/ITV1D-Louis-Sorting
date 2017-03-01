@@ -14,7 +14,7 @@
         <Insets bottom="10.0" top="10.0"/>
     </padding>
     <ComboBox fx:id="algorithmsComboBox" onAction="#onAlgorithmsComboBoxAction"/>
-    <Button text="Next Step" onAction="#onNextStepButtonAction"/>
+    <Button text="Next Step" fx:id="nextStepButton" onAction="#onNextStepButtonAction"/>
     <Button text="Start Auto Next Step" fx:id="autoNextStepButton" onAction="#onAutoNextStepButtonAction"/>
     <Label text="ms">
         <graphic>
