@@ -56,12 +56,12 @@ public class QuickSortAlgorithm extends Algorithm {
     /**
      * Partition the given numbers.
      * This works in the following way:
-     *   - Pivot is the last number in the current partition.
-     *   - Loop from the first number in the partition to the last number (exclusive).
-     *   - If the current number is smaller than or equal to the pivot, swap it with the first
-     *     number that has not been swapped yet.
-     *   - Finally swap the pivot itself with the first number that has not been swapped yet,
-     *     resulting in all smaller numbers before the pivot and all higher numbers after the pivot.
+     * - Pivot is the last number in the current partition.
+     * - Loop from the first number in the partition to the last number (exclusive).
+     * - If the current number is smaller than or equal to the pivot, swap it with the first
+     * number that has not been swapped yet.
+     * - Finally swap the pivot itself with the first number that has not been swapped yet,
+     * resulting in all smaller numbers before the pivot and all higher numbers after the pivot.
      *
      * @param numbers Numbers to partition.
      * @param low     Lowest index to sort.
