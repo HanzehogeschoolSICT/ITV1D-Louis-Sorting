@@ -88,6 +88,16 @@ public class DataSetModel implements Iterable<Integer> {
     }
 
     /**
+     * Mark a single item as compared during the latest algorithm step.
+     *
+     * @param index Index of the item to mark.
+     */
+    public void markComparedNumber(int index) {
+        comparedNumbers.clear();
+        comparedNumbers.add(data.get(index));
+    }
+
+    /**
      * Mark 2 items as compared during the latest algorithm step.
      *
      * @param firstIndex  Index of the first item to mark.

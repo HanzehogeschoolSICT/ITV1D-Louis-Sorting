@@ -1,10 +1,13 @@
 package algorithms;
 
 import models.DataSetModel;
+import models.PivotModel;
 
 import java.util.LinkedList;
 
 public class QuickSortAlgorithm extends Algorithm {
+    private PivotModel currentPivot;
+
     /**
      * Construct the quick sort algorithm using the specified data set.
      *
@@ -12,6 +15,15 @@ public class QuickSortAlgorithm extends Algorithm {
      */
     public QuickSortAlgorithm(DataSetModel dataSet) {
         super("QuickSort", dataSet);
+    }
+
+    /**
+     * Get the current pivot for the algorithm.
+     *
+     * @return Current pivot for the algorithm.
+     */
+    public PivotModel getCurrentPivot() {
+        return currentPivot;
     }
 
     /**
@@ -56,7 +68,10 @@ public class QuickSortAlgorithm extends Algorithm {
 
         for (int j = low; j < high; j++) {
             try (NextStepWaiter ignored = new NextStepWaiter()) {
-                dataSet.markComparedNumbers(j, high);
+                // The pivot doesn't change within this loop, but is set
+                // within the NextStepWaiter to prevent a race condition.
+                currentPivot = new PivotModel(low, high, pivot);
+                dataSet.markComparedNumber(j);
 
                 if (numbers.get(j) <= pivot)
                     dataSet.swap(++i, j);
@@ -64,7 +79,7 @@ public class QuickSortAlgorithm extends Algorithm {
         }
 
         try (NextStepWaiter ignored = new NextStepWaiter()) {
-            dataSet.markComparedNumbers(i + 1, high);
+            dataSet.markComparedNumber(high);
             dataSet.swap(i + 1, high);
         }
 

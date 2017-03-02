@@ -1,5 +1,7 @@
 package displays;
 
+import algorithms.Algorithm;
+import algorithms.QuickSortAlgorithm;
 import data.DataManager;
 import data.Settings;
 import javafx.beans.property.Property;
@@ -13,6 +15,7 @@ import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.TextAlignment;
 import models.DataSetModel;
 import models.DrawBarDataModel;
+import models.PivotModel;
 
 public class DataSetDisplay {
     @FXML
@@ -33,7 +36,7 @@ public class DataSetDisplay {
         dataSetProperty.addListener(((observable, oldValue, newValue) -> updateDataSet(newValue)));
 
         Property<Integer> currentStepProperty = DataManager.getCurrentStepProperty();
-        currentStepProperty.addListener(((observable, oldValue, newValue) -> drawDataSet()));
+        currentStepProperty.addListener(((observable, oldValue, newValue) -> drawDataSet(false)));
 
         // Initial data set draw.
         DataSetModel dataSet = DataManager.getDataSet();
@@ -48,13 +51,15 @@ public class DataSetDisplay {
     private void updateDataSet(DataSetModel dataSet) {
         this.dataSet = dataSet;
 
-        drawDataSet();
+        drawDataSet(true);
     }
 
     /**
      * Draw the current data set on the canvas.
+     *
+     * @param initialDataSet True if the data set is new, false otherwise.
      */
-    private void drawDataSet() {
+    private void drawDataSet(boolean initialDataSet) {
         clear();
 
         double width = dataSetCanvas.getWidth();
@@ -66,6 +71,9 @@ public class DataSetDisplay {
         DrawBarDataModel drawBarData = new DrawBarDataModel(heightPerNumber, widthPerBar);
         for (Integer number : dataSet)
             drawBar(number, drawBarData, getBarColor(dataSet, number));
+
+        if (!initialDataSet)
+            drawPivot(height, heightPerNumber, widthPerBar);
     }
 
     /**
@@ -135,5 +143,30 @@ public class DataSetDisplay {
 
         String numberText = number.toString();
         graphics.fillText(numberText, centerX, topY);
+    }
+
+    /**
+     * Draw the pivot (if any) on the canvas.
+     *
+     * @param height          Total height of the canvas.
+     * @param heightPerNumber Height per number.
+     * @param widthPerBar     Width per bar.
+     */
+    private void drawPivot(double height, double heightPerNumber, double widthPerBar) {
+        Algorithm algorithm = DataManager.getAlgorithm();
+        // Only QuickSort has a pivot, and there's no point in showing the pivot if the data set is sorted already.
+        if (!(algorithm instanceof QuickSortAlgorithm) || dataSet.getIsSorted())
+            return;
+
+        PivotModel pivot = ((QuickSortAlgorithm) algorithm).getCurrentPivot();
+
+        double startX = widthPerBar * pivot.getLowIndex();
+        // Increase the high index by one, because this bar should be included as well.
+        double endX = widthPerBar * (pivot.getHighIndex() + 1);
+
+        double y = height - (heightPerNumber * pivot.getPivot());
+
+        graphics.setStroke(Settings.PIVOT_COLOR);
+        graphics.strokeLine(startX, y, endX, y);
     }
 }
