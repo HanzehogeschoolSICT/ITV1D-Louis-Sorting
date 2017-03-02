@@ -1,5 +1,6 @@
 package algorithms;
 
+import data.Log;
 import models.DataSetModel;
 
 import java.util.LinkedList;
@@ -50,7 +51,7 @@ public abstract class Algorithm {
                 // Wait until the step has been completed before returning.
                 workerLock.wait();
             } catch (InterruptedException exception) {
-                System.out.println(String.format("%s has been destroyed.", algorithmName));
+                Log.info("%s has been destroyed", algorithmName);
             }
         }
 
@@ -106,7 +107,7 @@ public abstract class Algorithm {
                     dataSet.setIsSorted();
                 }
             } catch (InterruptedException exception) {
-                System.out.println(String.format("%s has been destroyed.", algorithmName));
+                Log.info("%s has been destroyed", algorithmName);
             }
         }
     }

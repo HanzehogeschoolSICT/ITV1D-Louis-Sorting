@@ -1,4 +1,5 @@
 import data.DataManager;
+import data.Log;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,7 +48,7 @@ public class Bootstrap extends Application {
 
             stage.show();
         } catch (IOException exception) {
-            System.out.println("Failed to load GUI");
+            Log.error("Failed to load GUI");
         }
     }
 
@@ -56,6 +57,8 @@ public class Bootstrap extends Application {
      */
     @Override
     public void stop() {
+        Log.info("Releasing all resources");
+
         // Stop the timer if it's still running.
         Timer timer = DataManager.getTimer();
         timer.cancel();
