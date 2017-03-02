@@ -53,14 +53,13 @@ public class QuickSortAlgorithm extends Algorithm {
     private int partition(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
         int pivot = numbers.get(high);
         int i = low - 1;
+
         for (int j = low; j < high; j++) {
             try (NextStepWaiter ignored = new NextStepWaiter()) {
                 dataSet.markComparedNumbers(j, high);
 
-                if (numbers.get(j) <= pivot) {
-                    i++;
-                    dataSet.swap(i, j);
-                }
+                if (numbers.get(j) <= pivot)
+                    dataSet.swap(++i, j);
             }
         }
 
