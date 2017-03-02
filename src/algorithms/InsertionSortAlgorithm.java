@@ -25,7 +25,7 @@ public class InsertionSortAlgorithm extends Algorithm {
         for (int i = 1; i < numbers.size(); i++) {
             int j = i;
             while (j > 0) {
-                try (AutoLocker ignored = new AutoLocker()) {
+                try (NextStepWaiter ignored = new NextStepWaiter()) {
                     dataSet.markComparedNumbers(j, j - 1);
 
                     if (numbers.get(j - 1) > numbers.get(j)) {

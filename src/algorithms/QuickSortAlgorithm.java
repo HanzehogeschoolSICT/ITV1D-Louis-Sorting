@@ -54,7 +54,7 @@ public class QuickSortAlgorithm extends Algorithm {
         int pivot = numbers.get(high);
         int i = low - 1;
         for (int j = low; j < high; j++) {
-            try (AutoLocker ignored = new AutoLocker()) {
+            try (NextStepWaiter ignored = new NextStepWaiter()) {
                 dataSet.markComparedNumbers(j, high);
 
                 if (numbers.get(j) <= pivot) {
@@ -64,7 +64,7 @@ public class QuickSortAlgorithm extends Algorithm {
             }
         }
 
-        try (AutoLocker ignored = new AutoLocker()) {
+        try (NextStepWaiter ignored = new NextStepWaiter()) {
             dataSet.markComparedNumbers(i + 1, high);
             dataSet.swap(i + 1, high);
         }

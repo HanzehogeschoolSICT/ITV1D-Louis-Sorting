@@ -65,20 +65,21 @@ public abstract class Algorithm {
             workerThread.interrupt();
     }
 
-    class AutoLocker implements AutoCloseable {
+    class NextStepWaiter implements AutoCloseable {
         /**
-         * Obtain a lock.
+         * Wait for the worker lock to be released.
+         * This happens when a request for the next step of the algorithm is being made.
          *
          * @throws InterruptedException When the algorithm is being destroyed.
          */
-        AutoLocker() throws InterruptedException {
+        NextStepWaiter() throws InterruptedException {
             synchronized (workerLock) {
                 workerLock.wait();
             }
         }
 
         /**
-         * Release the lock.
+         * Release the lock when the step has been completed.
          */
         @Override
         public void close() {
@@ -101,7 +102,7 @@ public abstract class Algorithm {
             try {
                 startAlgorithm(data);
 
-                try (AutoLocker ignored = new AutoLocker()) {
+                try (NextStepWaiter ignored = new NextStepWaiter()) {
                     dataSet.setIsSorted();
                 }
             } catch (InterruptedException exception) {

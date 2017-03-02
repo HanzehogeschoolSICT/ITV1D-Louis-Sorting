@@ -28,7 +28,7 @@ public class BubbleSortAlgorithm extends Algorithm {
         do {
             swapped = false;
             for (int i = 1; i < size; i++) {
-                try (AutoLocker ignored = new AutoLocker()) {
+                try (NextStepWaiter ignored = new NextStepWaiter()) {
                     dataSet.markComparedNumbers(i - 1, i);
 
                     if (numbers.get(i - 1) > numbers.get(i)) {
