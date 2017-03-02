@@ -11,109 +11,64 @@ public class QuickSortAlgorithm extends Algorithm {
      * @param dataSet Data set to use with the quick sort algorithm.
      */
     public QuickSortAlgorithm(DataSetModel dataSet) {
-        super(dataSet);
-
-        AlgorithmWorker algorithmWorker = new AlgorithmWorker();
-        workerThread = new Thread(algorithmWorker);
-        workerThread.start();
+        super("QuickSort", dataSet);
     }
 
     /**
-     * Perform the next step of the quick sort algorithm.
+     * Start the quick sort using the given numbers.
      *
-     * @return True if the data set has changed, false otherwise.
+     * @param numbers Numbers to quick sort.
+     * @throws InterruptedException When the algorithm is being destroyed.
      */
     @Override
-    public boolean nextStep() {
-        if (dataSet.getIsSorted())
-            return false;
-
-        synchronized (workerLock) {
-            workerLock.notify();
-
-            try {
-                workerLock.wait();
-            } catch (InterruptedException exception) {
-                System.out.println("QuickSort has been destroyed.");
-            }
-        }
-
-        return true;
+    void startAlgorithm(LinkedList<Integer> numbers) throws InterruptedException {
+        quickSort(numbers, 0, numbers.size() - 1);
     }
 
-    private class AlgorithmWorker implements Runnable {
-        /**
-         * Run the quick sort algorithm.
-         */
-        @Override
-        public void run() {
-            LinkedList<Integer> data = dataSet.getData();
-
-            try {
-                quickSort(data, 0, data.size() - 1);
-
-                synchronized (workerLock) {
-                    workerLock.wait();
-                    dataSet.setIsSorted();
-                    workerLock.notify();
-                }
-            } catch (InterruptedException e) {
-                System.out.println("QuickSort has been destroyed.");
-            }
+    /**
+     * Quick sort the given numbers.
+     *
+     * @param numbers Numbers to quick sort.
+     * @param low     Lowest index to sort.
+     * @param high    Highest index to sort.
+     * @throws InterruptedException When the algorithm is being destroyed.
+     */
+    private void quickSort(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
+        if (low < high) {
+            int pivot = partition(numbers, low, high);
+            quickSort(numbers, low, pivot - 1);
+            quickSort(numbers, pivot + 1, high);
         }
+    }
 
-        /**
-         * Quick sort the given numbers.
-         *
-         * @param numbers Numbers to quick sort.
-         * @param low     Lowest index to sort.
-         * @param high    Highest index to sort.
-         * @throws InterruptedException When the algorithm is being destroyed.
-         */
-        private void quickSort(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
-            if (low < high) {
-                int pivot = partition(numbers, low, high);
-                quickSort(numbers, low, pivot - 1);
-                quickSort(numbers, pivot + 1, high);
-            }
-        }
+    /**
+     * Partition the given numbers.
+     *
+     * @param numbers Numbers to partition.
+     * @param low     Lowest index to sort.
+     * @param high    Highest index to sort.
+     * @return Index of the pivot.
+     * @throws InterruptedException When the algorithm is being destroyed.
+     */
+    private int partition(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
+        int pivot = numbers.get(high);
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            try (AutoLocker ignored = new AutoLocker()) {
+                dataSet.markComparedNumbers(j, high);
 
-        /**
-         * Partition the given numbers.
-         *
-         * @param numbers Numbers to partition.
-         * @param low     Lowest index to sort.
-         * @param high    Highest index to sort.
-         * @return Index of the pivot.
-         * @throws InterruptedException When the algorithm is being destroyed.
-         */
-        private int partition(LinkedList<Integer> numbers, int low, int high) throws InterruptedException {
-            int pivot = numbers.get(high);
-            int i = low - 1;
-            for (int j = low; j < high; j++) {
-                synchronized (workerLock) {
-                    workerLock.wait();
-                    dataSet.markComparedNumbers(j, high);
-
-                    if (numbers.get(j) <= pivot) {
-                        i++;
-                        dataSet.swap(i, j);
-                    }
-
-                    workerLock.notify();
+                if (numbers.get(j) <= pivot) {
+                    i++;
+                    dataSet.swap(i, j);
                 }
             }
-
-            synchronized (workerLock) {
-                workerLock.wait();
-                dataSet.markComparedNumbers(i + 1, high);
-
-                dataSet.swap(i + 1, high);
-
-                workerLock.notify();
-            }
-
-            return i + 1;
         }
+
+        try (AutoLocker ignored = new AutoLocker()) {
+            dataSet.markComparedNumbers(i + 1, high);
+            dataSet.swap(i + 1, high);
+        }
+
+        return i + 1;
     }
 }

@@ -11,83 +11,32 @@ public class BubbleSortAlgorithm extends Algorithm {
      * @param dataSet Data set to use with the bubble sort algorithm.
      */
     public BubbleSortAlgorithm(DataSetModel dataSet) {
-        super(dataSet);
-
-        AlgorithmWorker algorithmWorker = new AlgorithmWorker();
-        workerThread = new Thread(algorithmWorker);
-        workerThread.start();
+        super("BubbleSort", dataSet);
     }
 
     /**
-     * Perform the next step of the bubble sort algorithm.
+     * Bubble sort the given numbers.
      *
-     * @return True if the data set has changed, false otherwise.
+     * @param numbers Numbers to bubble sort.
+     * @throws InterruptedException When the algorithm is being destroyed.
      */
     @Override
-    public boolean nextStep() {
-        if (dataSet.getIsSorted())
-            return false;
+    void startAlgorithm(LinkedList<Integer> numbers) throws InterruptedException {
+        boolean swapped;
+        int size = numbers.size();
 
-        synchronized (workerLock) {
-            workerLock.notify();
+        do {
+            swapped = false;
+            for (int i = 1; i < size; i++) {
+                try (AutoLocker ignored = new AutoLocker()) {
+                    dataSet.markComparedNumbers(i - 1, i);
 
-            try {
-                workerLock.wait();
-            } catch (InterruptedException exception) {
-                System.out.println("BubbleSort has been destroyed.");
-            }
-        }
-
-        return true;
-    }
-
-    private class AlgorithmWorker implements Runnable {
-        /**
-         * Run the bubble sort algorithm.
-         */
-        @Override
-        public void run() {
-            LinkedList<Integer> data = dataSet.getData();
-
-            try {
-                bubbleSort(data);
-
-                synchronized (workerLock) {
-                    workerLock.wait();
-                    dataSet.setIsSorted();
-                    workerLock.notify();
-                }
-            } catch (InterruptedException exception) {
-                System.out.println("BubbleSort has been destroyed.");
-            }
-        }
-
-        /**
-         * Bubble sort the given numbers.
-         *
-         * @param numbers Numbers to bubble sort.
-         * @throws InterruptedException When the algorithm is being destroyed.
-         */
-        private void bubbleSort(LinkedList<Integer> numbers) throws InterruptedException {
-            boolean swapped;
-            int size = numbers.size();
-
-            do {
-                swapped = false;
-                for (int i = 1; i < size; i++) {
-                    synchronized (workerLock) {
-                        workerLock.wait();
-                        dataSet.markComparedNumbers(i - 1, i);
-
-                        if (numbers.get(i - 1) > numbers.get(i)) {
-                            dataSet.swap(i - 1, i);
-                            swapped = true;
-                        }
-
-                        workerLock.notify();
+                    if (numbers.get(i - 1) > numbers.get(i)) {
+                        dataSet.swap(i - 1, i);
+                        swapped = true;
                     }
                 }
-            } while (swapped);
-        }
+            }
+        } while (swapped);
     }
 }

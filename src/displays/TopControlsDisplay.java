@@ -2,7 +2,6 @@ package displays;
 
 import data.DataManager;
 import data.Settings;
-import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
