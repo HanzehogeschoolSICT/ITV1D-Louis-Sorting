@@ -75,9 +75,7 @@ public class BottomControlsDisplay {
      */
     @FXML
     private void onAlgorithmsChoiceBoxAction(ActionEvent actionEvent) {
-        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
-        DataSetModel dataSet = dataSetProperty.getValue();
-
+        DataSetModel dataSet = DataManager.getDataSet();
         applyAlgorithm(dataSet);
     }
 
@@ -162,14 +160,11 @@ public class BottomControlsDisplay {
         if (algorithm == null || !algorithm.nextStep())
             return;
 
-        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
-        DataSetModel dataSet = dataSetProperty.getValue();
+        DataSetModel dataSet = DataManager.getDataSet();
 
         if (dataSet.getIsSorted())
             nextStepButton.setDisable(true);
 
-        Property<Integer> currentStepProperty = DataManager.getCurrentStepProperty();
-        int currentStep = currentStepProperty.getValue();
-        currentStepProperty.setValue(currentStep + 1);
+        DataManager.increaseCurrentStep();
     }
 }

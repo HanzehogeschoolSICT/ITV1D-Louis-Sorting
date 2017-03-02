@@ -33,9 +33,8 @@ public class TopControlsDisplay {
     @FXML
     private void onNewDataSetButtonAction(ActionEvent actionEvent) {
         int items = dataSetSpinner.getValue();
-        DataSetModel dataSet = new DataSetModel(items);
 
-        Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
-        dataSetProperty.setValue(dataSet);
+        DataSetModel dataSet = new DataSetModel(items);
+        DataManager.setDataSet(dataSet);
     }
 }

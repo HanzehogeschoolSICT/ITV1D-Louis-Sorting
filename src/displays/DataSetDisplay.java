@@ -36,7 +36,7 @@ public class DataSetDisplay {
         currentStepProperty.addListener(((observable, oldValue, newValue) -> drawDataSet()));
 
         // Initial data set draw.
-        DataSetModel dataSet = dataSetProperty.getValue();
+        DataSetModel dataSet = DataManager.getDataSet();
         updateDataSet(dataSet);
     }
 

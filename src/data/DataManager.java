@@ -26,12 +26,38 @@ public class DataManager {
     }
 
     /**
+     * Get the data set.
+     *
+     * @return Data set.
+     */
+    public static DataSetModel getDataSet() {
+        return dataSetProperty.getValue();
+    }
+
+    /**
+     * Set the data set.
+     *
+     * @param dataSet New data set.
+     */
+    public static void setDataSet(DataSetModel dataSet) {
+        dataSetProperty.setValue(dataSet);
+    }
+
+    /**
      * Get the current step property.
      *
      * @return Current step property.
      */
     public static Property<Integer> getCurrentStepProperty() {
         return currentStepProperty;
+    }
+
+    /**
+     * Increase the current step by one.
+     */
+    public static void increaseCurrentStep() {
+        int currentStep = currentStepProperty.getValue();
+        currentStepProperty.setValue(currentStep + 1);
     }
 
     /**
