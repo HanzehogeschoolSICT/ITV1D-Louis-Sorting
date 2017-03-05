@@ -1,5 +1,8 @@
 package models;
 
+/**
+ * Model containing information required to draw bars on the canvas.
+ */
 public class DrawBarDataModel {
     private final double heightPerNumber;
     private final double widthPerBar;

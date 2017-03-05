@@ -3,6 +3,9 @@ package data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Class to log messages to the console using a timestamp.
+ */
 public class Log {
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 

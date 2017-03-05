@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Timer;
 
+/**
+ * Entry class for the application.
+ */
 public class Bootstrap extends Application {
     /**
      * Start the application.

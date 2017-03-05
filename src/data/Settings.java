@@ -2,6 +2,9 @@ package data;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Class to store application wide settings.
+ */
 public class Settings {
     public static final int DATA_SET_SIZE = 6;
     public static final int DATA_SET_MINIMUM_SIZE = 2;

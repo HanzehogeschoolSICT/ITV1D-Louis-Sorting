@@ -2,6 +2,9 @@ package models;
 
 import java.util.*;
 
+/**
+ * Model to hold the data set itself.
+ */
 public class DataSetModel implements Iterable<Integer> {
     private final int highestNumber;
     private final LinkedList<Integer> data;

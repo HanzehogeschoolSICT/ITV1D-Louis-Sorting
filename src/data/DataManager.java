@@ -7,6 +7,9 @@ import models.DataSetModel;
 
 import java.util.Timer;
 
+/**
+ * Class to share application wide data between classes.
+ */
 public class DataManager {
     private static final Property<DataSetModel> dataSetProperty =
             new SimpleObjectProperty<>(new DataSetModel(Settings.DATA_SET_SIZE));

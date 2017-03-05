@@ -20,6 +20,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Function;
 
+/**
+ * Controller for the bottom controls.
+ */
 public class BottomControlsDisplay {
     private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
 

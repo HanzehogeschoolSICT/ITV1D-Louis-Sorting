@@ -4,6 +4,9 @@ import models.DataSetModel;
 
 import java.util.LinkedList;
 
+/**
+ * Implementation of the bubble sort algorithm.
+ */
 public class BubbleSortAlgorithm extends Algorithm {
     /**
      * Construct the bubble sort algorithm using the specified data set.
@@ -16,6 +19,11 @@ public class BubbleSortAlgorithm extends Algorithm {
 
     /**
      * Bubble sort the given numbers.
+     * This works in the following way:
+     * - Loop from the second number to the last number.
+     * - For each number in the loop, compare the current number to the previous number.
+     * - If the previous number is greater than the current number, swap the numbers and set swapped to true.
+     * - Execute the loop again until swapped is set to false.
      *
      * @param numbers Numbers to bubble sort.
      * @throws InterruptedException When the algorithm is being destroyed.

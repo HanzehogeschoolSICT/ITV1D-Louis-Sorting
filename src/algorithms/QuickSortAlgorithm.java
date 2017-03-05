@@ -5,6 +5,9 @@ import models.PivotModel;
 
 import java.util.LinkedList;
 
+/**
+ * Implementation of the quick sort algorithm.
+ */
 public class QuickSortAlgorithm extends Algorithm {
     private PivotModel currentPivot;
 

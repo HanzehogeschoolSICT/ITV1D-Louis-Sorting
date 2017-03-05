@@ -17,6 +17,9 @@ import models.DataSetModel;
 import models.DrawBarDataModel;
 import models.PivotModel;
 
+/**
+ * Controller for the data set.
+ */
 public class DataSetDisplay {
     @FXML
     private Canvas dataSetCanvas;

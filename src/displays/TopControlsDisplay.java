@@ -8,6 +8,9 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import models.DataSetModel;
 
+/**
+ * Controller for the top controls.
+ */
 public class TopControlsDisplay {
     @FXML
     private Spinner<Integer> dataSetSpinner;

@@ -5,6 +5,11 @@ import models.DataSetModel;
 
 import java.util.LinkedList;
 
+/**
+ * Base for algorithm implementations.
+ * Contains the logic for executing and pausing algorithms,
+ * while the implementations contain the algorithms themselves.
+ */
 public abstract class Algorithm {
     final DataSetModel dataSet;
     private final String algorithmName;
@@ -13,6 +18,7 @@ public abstract class Algorithm {
 
     /**
      * Construct the algorithm using the specified data set.
+     * The algorithm will be started, but won't alter the data set until {@link #nextStep()} is called.
      *
      * @param algorithmName Name of the current algorithm.
      * @param dataSet       Data set to use with the algorithm.
@@ -28,6 +34,8 @@ public abstract class Algorithm {
 
     /**
      * Start the algorithm.
+     * This simply passes the input data to the algorithm,
+     * but doesn't alter the data set until {@link #nextStep()} is called.
      *
      * @param data Data to use with the algorithm.
      * @throws InterruptedException When the algorithm is being destroyed.
@@ -35,7 +43,7 @@ public abstract class Algorithm {
     abstract void startAlgorithm(LinkedList<Integer> data) throws InterruptedException;
 
     /**
-     * Perform the next step of the algorithm.
+     * Perform the next step of the algorithm, unless the data set is already sorted.
      *
      * @return True if the data set has changed, false otherwise.
      */
@@ -66,6 +74,10 @@ public abstract class Algorithm {
             workerThread.interrupt();
     }
 
+    /**
+     * Automatically wait for and notify the worker lock using an {@link AutoCloseable} to perform a step,
+     * in order to prevent boiler plate and nested code and to make sure {@link #notify()} is always called.
+     */
     class NextStepWaiter implements AutoCloseable {
         /**
          * Wait for the worker lock to be released.
@@ -81,6 +93,7 @@ public abstract class Algorithm {
 
         /**
          * Release the lock when the step has been completed.
+         * This results in the calling thread resuming its work and returning the result.
          */
         @Override
         public void close() {
@@ -90,11 +103,13 @@ public abstract class Algorithm {
         }
     }
 
+    /**
+     * Worker to execute the algorithm implementation on a separate thread.
+     * This thread is being paused after every step to preserve the current state of the algorithm.
+     */
     private class AlgorithmWorker implements Runnable {
         /**
-         * Run the algorithm itself in a separate thread.
-         * The algorithm will be paused on every step using a lock.
-         * This way the next step can be executed on request by releasing the lock.
+         * Run the algorithm itself on a separate thread.
          */
         @Override
         public void run() {

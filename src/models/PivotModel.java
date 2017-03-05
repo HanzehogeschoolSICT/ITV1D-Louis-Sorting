@@ -1,5 +1,8 @@
 package models;
 
+/**
+ * Model containing information to draw the pivot on the canvas.
+ */
 public class PivotModel {
     private final int lowIndex;
     private final int highIndex;
@@ -19,7 +22,7 @@ public class PivotModel {
     }
 
     /**
-     * Get the lowIndex index of the current partition.
+     * Get the low index of the current partition.
      *
      * @return Low index of the current partition.
      */
@@ -28,7 +31,7 @@ public class PivotModel {
     }
 
     /**
-     * Get the highIndex index of the current partition.
+     * Get the high index of the current partition.
      *
      * @return High index of the current partition.
      */
