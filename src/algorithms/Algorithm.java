@@ -67,6 +67,16 @@ public abstract class Algorithm {
     }
 
     /**
+     * Check if the current algorithm equals the given name.
+     *
+     * @param algorithmName Algorithm name to check.
+     * @return True if the current algorithm equals the given name, false otherwise.
+     */
+    public boolean isAlgorithm(String algorithmName) {
+        return this.algorithmName.equals(algorithmName);
+    }
+
+    /**
      * Destroy the algorithm.
      */
     public void destroy() {

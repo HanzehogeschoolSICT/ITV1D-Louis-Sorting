@@ -158,7 +158,7 @@ public class DataSetDisplay {
     private void drawPivot(double height, double heightPerNumber, double widthPerBar) {
         Algorithm algorithm = DataManager.getAlgorithm();
         // Only QuickSort has a pivot, and there's no point in showing the pivot if the data set is sorted already.
-        if (!(algorithm instanceof QuickSortAlgorithm) || dataSet.getIsSorted())
+        if (!algorithm.isAlgorithm("QuickSort") || dataSet.getIsSorted())
             return;
 
         PivotModel pivot = ((QuickSortAlgorithm) algorithm).getCurrentPivot();

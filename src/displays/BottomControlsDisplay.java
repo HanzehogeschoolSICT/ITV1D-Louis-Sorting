@@ -1,9 +1,6 @@
 package displays;
 
-import algorithms.Algorithm;
-import algorithms.BubbleSortAlgorithm;
-import algorithms.InsertionSortAlgorithm;
-import algorithms.QuickSortAlgorithm;
+import algorithms.*;
 import data.DataManager;
 import data.Settings;
 import javafx.beans.property.Property;
@@ -46,6 +43,7 @@ public class BottomControlsDisplay {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
         algorithmHashMap.put("InsertionSort", InsertionSortAlgorithm::new);
         algorithmHashMap.put("QuickSort", QuickSortAlgorithm::new);
+        algorithmHashMap.put("MergeSort", MergeSortAlgorithm::new);
 
         Property<DataSetModel> dataSetProperty = DataManager.getDataSetProperty();
         dataSetProperty.addListener(((observable, oldValue, newValue) -> handleNewDataSet(newValue)));
