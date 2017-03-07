@@ -1,3 +1,5 @@
+[![BCH compliance](https://bettercodehub.com/edge/badge/HanzehogeschoolSICT/ITV1D-Louis-Sorting)](https://bettercodehub.com/)
+
 # Sorting
 
 This folder contains the sorting program for OOP3.
