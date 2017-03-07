@@ -32,6 +32,7 @@ public class InsertionSortAlgorithm extends Algorithm {
     void startAlgorithm(LinkedList<Integer> numbers) throws InterruptedException {
         for (int i = 1; i < numbers.size(); i++) {
             int j = i;
+
             while (j > 0) {
                 try (NextStepWaiter ignored = new NextStepWaiter()) {
                     dataSet.markComparedNumbers(j, j - 1);

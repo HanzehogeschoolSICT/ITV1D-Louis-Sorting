@@ -31,11 +31,10 @@ public class BubbleSortAlgorithm extends Algorithm {
     @Override
     void startAlgorithm(LinkedList<Integer> numbers) throws InterruptedException {
         boolean swapped;
-        int size = numbers.size();
 
         do {
             swapped = false;
-            for (int i = 1; i < size; i++) {
+            for (int i = 1; i < numbers.size(); i++) {
                 try (NextStepWaiter ignored = new NextStepWaiter()) {
                     dataSet.markComparedNumbers(i - 1, i);
 

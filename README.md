@@ -1,4 +1,4 @@
-[![BCH compliance](https://bettercodehub.com/edge/badge/HanzehogeschoolSICT/ITV1D-Louis-Sorting)](https://bettercodehub.com/)
+[![BCH compliance](https://bettercodehub.com/edge/badge/HanzehogeschoolSICT/ITV2D-Louis-Sorting)](https://bettercodehub.com/)
 
 # Sorting
 
