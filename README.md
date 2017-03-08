@@ -9,3 +9,4 @@ This folder contains the sorting program for OOP3.
 * [Insertion sort algorithm](https://en.wikipedia.org/wiki/Insertion_sort#Algorithm_for_insertion_sort)
 * [Quick sort algorithm](https://en.wikipedia.org/wiki/Quicksort#Algorithm)
 * [Material colors](https://material.io/guidelines/style/color.html#color-color-palette)
+* Code snippets from the other assignment (Boggle)
