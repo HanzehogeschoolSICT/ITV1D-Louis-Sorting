@@ -40,7 +40,7 @@ public class BottomControlsController {
     private TimerTask autoNextStepTimerTask = null;
 
     /**
-     * Initialize the data for the bottom controls display.
+     * Initialize the data for the bottom controls controller.
      */
     public BottomControlsController() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
@@ -52,7 +52,7 @@ public class BottomControlsController {
     }
 
     /**
-     * Initialize the bottom controls display.
+     * Initialize the bottom controls controller.
      */
     @FXML
     public void initialize() {

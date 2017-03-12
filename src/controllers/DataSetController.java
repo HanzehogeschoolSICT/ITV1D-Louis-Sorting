@@ -29,7 +29,7 @@ public class DataSetController {
     private GraphicsContext graphics;
 
     /**
-     * Initialize the data set display.
+     * Initialize the data set controller.
      */
     @FXML
     public void initialize() {

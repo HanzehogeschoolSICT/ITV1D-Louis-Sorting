@@ -16,7 +16,7 @@ public class TopControlsController {
     private Spinner<Integer> dataSetSpinner;
 
     /**
-     * Initialize the top controls display.
+     * Initialize the top controls controller.
      */
     @FXML
     public void initialize() {
