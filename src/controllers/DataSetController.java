@@ -1,4 +1,4 @@
-package displays;
+package controllers;
 
 import algorithms.Algorithm;
 import algorithms.QuickSortAlgorithm;
@@ -20,7 +20,7 @@ import models.PivotModel;
 /**
  * Controller for the data set.
  */
-public class DataSetDisplay {
+public class DataSetController {
     @FXML
     private Canvas dataSetCanvas;
 

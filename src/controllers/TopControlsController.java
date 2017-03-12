@@ -1,4 +1,4 @@
-package displays;
+package controllers;
 
 import data.DataManager;
 import data.Settings;
@@ -11,7 +11,7 @@ import models.DataSetModel;
 /**
  * Controller for the top controls.
  */
-public class TopControlsDisplay {
+public class TopControlsController {
     @FXML
     private Spinner<Integer> dataSetSpinner;
 

@@ -1,4 +1,4 @@
-package displays;
+package controllers;
 
 import algorithms.Algorithm;
 import algorithms.BubbleSortAlgorithm;
@@ -23,7 +23,7 @@ import java.util.function.Function;
 /**
  * Controller for the bottom controls.
  */
-public class BottomControlsDisplay {
+public class BottomControlsController {
     private final HashMap<String, Function<DataSetModel, Algorithm>> algorithmHashMap = new HashMap<>();
 
     @FXML
@@ -42,7 +42,7 @@ public class BottomControlsDisplay {
     /**
      * Initialize the data for the bottom controls display.
      */
-    public BottomControlsDisplay() {
+    public BottomControlsController() {
         algorithmHashMap.put("BubbleSort", BubbleSortAlgorithm::new);
         algorithmHashMap.put("InsertionSort", InsertionSortAlgorithm::new);
         algorithmHashMap.put("QuickSort", QuickSortAlgorithm::new);

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <HBox xmlns:fx="http://javafx.com/fxml/1"
       xmlns="http://javafx.com/javafx/8.0.112"
-      fx:controller="displays.TopControlsDisplay"
+      fx:controller="controllers.TopControlsController"
       alignment="CENTER" spacing="10.0">
     <padding>
         <Insets bottom="10.0" top="10.0"/>
