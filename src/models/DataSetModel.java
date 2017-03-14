@@ -8,7 +8,7 @@ import java.util.*;
 public class DataSetModel implements Iterable<Integer> {
     private final int highestNumber;
     private final LinkedList<Integer> data;
-    private final Set<Integer> comparedNumbers;
+    private final Set<Integer> comparedNumbers = new HashSet<>();
     private boolean isSorted = false;
 
     /**
@@ -19,11 +19,20 @@ public class DataSetModel implements Iterable<Integer> {
     public DataSetModel(int n) {
         highestNumber = n;
         data = new LinkedList<>();
-        comparedNumbers = new HashSet<>();
 
         Random random = new Random();
         for (int i = 1; i <= n; i++)
             data.add(random.nextInt(i), i);
+    }
+
+    /**
+     * Initialize the data set with the given numbers.
+     *
+     * @param data Data to use.
+     */
+    public DataSetModel(LinkedList<Integer> data) {
+        highestNumber = Collections.max(data);
+        this.data = data;
     }
 
     /**

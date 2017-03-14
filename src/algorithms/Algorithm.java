@@ -2,6 +2,7 @@ package algorithms;
 
 import data.Log;
 import models.DataSetModel;
+import models.StepStateModel;
 
 import java.util.LinkedList;
 
@@ -14,7 +15,7 @@ public abstract class Algorithm {
     final DataSetModel dataSet;
     private final String algorithmName;
     private final Thread workerThread;
-    private final Object workerLock = new Object();
+    private final StepStateModel workerLock = new StepStateModel();
 
     /**
      * Construct the algorithm using the specified data set.
@@ -57,6 +58,7 @@ public abstract class Algorithm {
 
             try {
                 // Wait until the step has been completed before returning.
+                workerLock.setNextStep(true);
                 workerLock.wait();
             } catch (InterruptedException exception) {
                 Log.info("%s has been destroyed", algorithmName);
@@ -87,7 +89,10 @@ public abstract class Algorithm {
          */
         NextStepWaiter() throws InterruptedException {
             synchronized (workerLock) {
-                workerLock.wait();
+                // If isNextStep() is true, the next step has been requested before the
+                // NextStepWaiter was entered. To prevent a deadlock, don't wait here.
+                if (!workerLock.isNextStep())
+                    workerLock.wait();
             }
         }
 
@@ -98,6 +103,7 @@ public abstract class Algorithm {
         @Override
         public void close() {
             synchronized (workerLock) {
+                workerLock.setNextStep(false);
                 workerLock.notify();
             }
         }
