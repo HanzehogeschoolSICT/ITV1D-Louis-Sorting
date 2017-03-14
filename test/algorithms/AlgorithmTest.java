@@ -15,7 +15,7 @@ class AlgorithmTest {
      */
     @Test
     void bubbleSortAlgorithmTest() {
-        algorithmTest(BubbleSortAlgorithm::new, 26);
+        algorithmTest(BubbleSortAlgorithm::new, 16);
     }
 
     /**
