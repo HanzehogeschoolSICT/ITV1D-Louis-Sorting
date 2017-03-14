@@ -5,7 +5,7 @@
 This folder contains the sorting program for OOP3.
 
 ## Sources
-* [Bubble sort algorithm](https://en.wikipedia.org/wiki/Bubble_sort#Implementation)
+* [Bubble sort algorithm](https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort)
 * [Insertion sort algorithm](https://en.wikipedia.org/wiki/Insertion_sort#Algorithm_for_insertion_sort)
 * [Quick sort algorithm](https://en.wikipedia.org/wiki/Quicksort#Algorithm)
 * [Material colors](https://material.io/guidelines/style/color.html#color-color-palette)

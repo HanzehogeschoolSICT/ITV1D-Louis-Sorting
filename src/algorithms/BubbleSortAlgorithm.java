@@ -24,6 +24,7 @@ public class BubbleSortAlgorithm extends Algorithm {
      * - For each number in the loop, compare the current number to the previous number.
      * - If the previous number is greater than the current number, swap the numbers and set swapped to true.
      * - Execute the loop again until swapped is set to false.
+     * - Each iteration checks one less number because the largest number is always at the end.
      *
      * @param numbers Numbers to bubble sort.
      * @throws InterruptedException When the algorithm is being destroyed.
@@ -31,10 +32,12 @@ public class BubbleSortAlgorithm extends Algorithm {
     @Override
     void startAlgorithm(LinkedList<Integer> numbers) throws InterruptedException {
         boolean swapped;
+        int size = numbers.size();
 
         do {
             swapped = false;
-            for (int i = 1; i < numbers.size(); i++) {
+
+            for (int i = 1; i < size; i++) {
                 try (NextStepWaiter ignored = new NextStepWaiter()) {
                     dataSet.markComparedNumbers(i - 1, i);
 
@@ -44,6 +47,8 @@ public class BubbleSortAlgorithm extends Algorithm {
                     }
                 }
             }
+
+            size--;
         } while (swapped);
     }
 }
